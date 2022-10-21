@@ -164,8 +164,8 @@ class verification(commands.Cog):
 
                 if(dat[2] == 'Sem-5'):
                     role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[7])
+                    camp_rl = campus(dat[8])
                     try:
                         role = get(user.guild.roles, name=role_str)
                         st_role = get(user.guild.roles, name=str_rl)
@@ -179,8 +179,8 @@ class verification(commands.Cog):
                         return
                 elif(dat[2] == 'Sem-6'):
                     role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[7])
+                    camp_rl = campus(dat[8])
                     try:
                         role = get(user.guild.roles, name=role_str)
                         st_role = get(user.guild.roles, name=str_rl)
@@ -194,8 +194,8 @@ class verification(commands.Cog):
                         return
                 elif(dat[2] == 'Sem-2'):
                     role_str = "Second Years"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[7])
+                    camp_rl = campus(dat[8])
                     try:
                         role = get(user.guild.roles, name=role_str)
                         st_role = get(user.guild.roles, name=str_rl)
@@ -209,8 +209,8 @@ class verification(commands.Cog):
                         return
                 elif(dat[2] == 'Sem-4'):
                     # role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[7])
+                    camp_rl = campus(dat[8])
                     try:
                         role = get(user.guild.roles, name="Seniors")
                         st_role = get(user.guild.roles, name=str_rl)
