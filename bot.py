@@ -7,11 +7,14 @@ from discord_slash import SlashCommand  #discord_slash is a python API wrapper f
 load_dotenv('.env') #loads the environment variables folder
 TOKEN = os.getenv('DISCORD_TOKEN') #returns value of the environment variable with key == DISCORD_TOKEN
 
-client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.Intents().all()) #initialises a discord bot with the prefix for its commands set to p!
+client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.Intents().all()) 
+#initialises a discord bot with the prefix for its commands set to p!
 #having no help command, and subscribed (listening) to all events
-slash = SlashCommand(client, sync_on_cog_reload = True)
+slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
+
 BOT_LOGS = 931523901731799080
 BOT_ROLE = 931588180174589983 #bot role id
+
 
 @client.command(aliases = ['loadit'])
 async def load(ctx, extension): #loads the cog
@@ -41,7 +44,6 @@ async def unload(ctx, extension): #unloads the cog
             await ctx.channel.send(e)
     else:
         await ctx.channel.send("Unauthorised")
-
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
