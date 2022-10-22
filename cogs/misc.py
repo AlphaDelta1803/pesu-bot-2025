@@ -731,7 +731,7 @@ class misc(commands.Cog):
                     break
             await self.storeId(str(ctx.author_id), str(required_message.id))
         else:
-            await ctx.send(":x: You have been banned from submitting anonymous confessions", hidden=True)
+            await ctx.reply(":x: You have been banned from submitting anonymous confessions", hidden=True)
 
     async def storeId(self, memberId: str, messageId: str):
         confessions = self.confessions
