@@ -118,15 +118,15 @@ class misc(commands.Cog):
                             bots += 1
                         else:
                             hooman += 1
-                stats = f"""**Server Stats:**
-                    Total number of people on the server: `{total}`
-                    Total number of verified people: `{verified}`
-                    Total number of seniors: `{seniorsNos}`
-                    Total number of members from RR: `{rrPeeps}`
-                    Total number of members from EC: `{ecPeeps}`
-                    Number of people that can see this channel: `{hooman}`
-                    Number of bots that can see this channel: `{bots}`"""
-                await ctx.reply(stats)
+            stats = f"""**Server Stats:**
+                Total number of people on the server: `{total}`
+                Total number of verified people: `{verified}`
+                Total number of seniors: `{seniorsNos}`
+                Total number of members from RR: `{rrPeeps}`
+                Total number of members from EC: `{ecPeeps}`
+                Number of people that can see this channel: `{hooman}`
+                Number of bots that can see this channel: `{bots}`"""
+            await ctx.reply(stats)
         else:
             thisRole = []
             for roles in rolename:
@@ -692,7 +692,7 @@ class misc(commands.Cog):
         else:
             await ctx.send(content=f"Soo cute you trying to change {member.name}'s nickname")
 
-    @ cog_ext.cog_slash(name="pride", description="Flourishes you with the pride of PESU", options=[create_option(name="msg_id", description="Message ID of any message you wanna reply to with the pride", option_type=3, required=False)])
+    @ cog_ext.cog_slash(name="pride", description="Flourishes you with the pride of PESU", guild_ids=[GUILD_ID], options=[create_option(name="msg_id", description="Message ID of any message you wanna reply to with the pride", option_type=3, required=False)])
     async def pride(self, ctx, *, msg_id: str = ''):
         # await ctx.defer()
         try:
@@ -703,7 +703,7 @@ class misc(commands.Cog):
                 "https://tenor.com/view/pes-pesuniversity-pesu-may-the-pride-of-pes-may-the-pride-of-pes-be-with-you-gif-21274060")
         except Exception as e:
             await ctx.defer()
-            await ctx.send(content="https://tenor.com/view/pes-pesuniversity-pesu-may-the-pride-of-pes-may-the-pride-of-pes-be-with-you-gif-21274060")
+            await ctx.reply(content="https://tenor.com/view/pes-pesuniversity-pesu-may-the-pride-of-pes-may-the-pride-of-pes-be-with-you-gif-21274060")
 
     @cog_ext.cog_slash(name="confess", description="Submits an anonymous confession", options=[create_option(name="confession", description="Opinion/confession you want to post anonymously", option_type=3, required=True), create_option(name="msg_id", description="Message you want this confession to reply to", option_type=3, required=False)])
     async def confess(self, ctx, *, confession: str, msg_id:str = ''):
@@ -731,7 +731,7 @@ class misc(commands.Cog):
                     break
             await self.storeId(str(ctx.author_id), str(required_message.id))
         else:
-            await ctx.send(":x: You have been banned from submitting anonymous confessions", hidden=True)
+            await ctx.reply(":x: You have been banned from submitting anonymous confessions", hidden=True)
 
     async def storeId(self, memberId: str, messageId: str):
         confessions = self.confessions
