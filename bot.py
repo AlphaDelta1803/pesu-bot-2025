@@ -9,7 +9,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.Intents().all())
 slash = SlashCommand(client, sync_on_cog_reload = True)
-BOT_LOGS = 931523901731799080
+os.getenv('BOT_LOGS')
 
 @client.command(aliases = ['loadit'])
 async def load(ctx, extension):

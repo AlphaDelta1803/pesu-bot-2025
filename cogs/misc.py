@@ -16,11 +16,11 @@ import pytz
 from clean import *
 IST = pytz.timezone('Asia/Kolkata')
 
-pesuID = 931592628640813177
-botID = 931592628640813177
-confessChannel = 1032709445534359627
-GUILD_ID = 1032709443860832426
-MOD_LOGS = 1032709445324652604
+os.getenv('pesuID')
+os.getenv('botID')
+os.getenv('confessChannel')
+os.getenv('GUILD_ID')
+os.getenc('MOD_LOGS')
 TOKEN = os.getenv('DISCORD_TOKEN')
 electiveChoiceList = []
 

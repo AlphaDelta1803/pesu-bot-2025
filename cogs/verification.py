@@ -4,9 +4,9 @@ from asyncio import sleep
 from discord.utils import get
 from cogs.helpers import helpers
 
-BOT_TEST = 1032709445324652605
-BOT_LOGS = 1032709445324652606
-GUILD_ID = 1032709443860832426
+os.getenv('BOT_TEST') 
+os.getenv('BOT_LOGS')
+os.getenv('GUILD_ID')
 
 def stream(inp):
     if inp == "ECE":
