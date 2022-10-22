@@ -1,4 +1,3 @@
-from lib2to3.pgen2.token import SLASH
 from time import time as presentTime
 import datetime
 import discord
