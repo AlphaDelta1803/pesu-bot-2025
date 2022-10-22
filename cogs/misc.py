@@ -118,15 +118,15 @@ class misc(commands.Cog):
                             bots += 1
                         else:
                             hooman += 1
-                stats = f"""**Server Stats:**
-                    Total number of people on the server: `{total}`
-                    Total number of verified people: `{verified}`
-                    Total number of seniors: `{seniorsNos}`
-                    Total number of members from RR: `{rrPeeps}`
-                    Total number of members from EC: `{ecPeeps}`
-                    Number of people that can see this channel: `{hooman}`
-                    Number of bots that can see this channel: `{bots}`"""
-                await ctx.reply(stats)
+            stats = f"""**Server Stats:**
+                Total number of people on the server: `{total}`
+                Total number of verified people: `{verified}`
+                Total number of seniors: `{seniorsNos}`
+                Total number of members from RR: `{rrPeeps}`
+                Total number of members from EC: `{ecPeeps}`
+                Number of people that can see this channel: `{hooman}`
+                Number of bots that can see this channel: `{bots}`"""
+            await ctx.reply(stats)
         else:
             thisRole = []
             for roles in rolename:
