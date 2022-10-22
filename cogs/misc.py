@@ -296,33 +296,51 @@ class misc(commands.Cog):
         else:
             await ctx.channel.send("Lawda you're not authorised to do that")
 
-    @ commands.command(aliases=['lock'])
-    async def _lock_channel(self, ctx, *, channelObj = None, reason: str = 'no reason given'):
+    # @ commands.command(aliases=['lock'])
+    @cog_ext.cog_slash( name="lock",
+                        description="Locks the specified channel",
+                        guild_ids=[GUILD_ID],
+                        options=[
+                            create_option(
+                                name="channelobj",
+                                description="The channel to be locked",
+                                option_type=7,
+                                required=False
+                            ),
+                            create_option(
+                                name="reason",
+                                description="The reason why it is to be locked",
+                                option_type=3,
+                                required=False
+                            )
+                        ]
+                      )
+    async def _lock_channel(self, ctx, *, channelobj = None, reason: str = 'no reason given'):
         lock_help_embed = discord.Embed(
             title="Embed", color=0x48BF91, description=self.lock)
 
         overwrites = discord.PermissionOverwrite(
             send_messages=False, view_channel=False)
-        if(channelObj == None):
-            channelObj = ctx.channel
-        if(channelObj not in ctx.guild.channels):
-            reason = str(channelObj)
-            channelObj = ctx.channel
+        if(channelobj == None):
+            channelobj = ctx.channel
+        if(channelobj not in ctx.guild.channels):
+            reason = str(channelobj)
+            channelobj = ctx.channel
 
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
-            await channelObj.set_permissions(ctx.guild.default_role, overwrite=overwrites)
+            await channelobj.set_permissions(ctx.guild.default_role, overwrite=overwrites)
             lock_embed = discord.Embed(
                 title="Channel Locked :lock:", color=0xff0000, description=reason)
-            await channelObj.send(embed=lock_embed)
+            await channelobj.send(embed=lock_embed)
             lock_message = discord.Embed(
-                title="", color=0x00ff00, description=f"Locked {channelObj.mention}")
-            await ctx.channel.send(embed=lock_message)
+                title="", color=0x00ff00, description=f"Locked {channelobj.mention}")
+            await ctx.reply(embed=lock_message)
             lock_logs = discord.Embed(title="Lock", color=0xff0000)
-            lock_logs.add_field(name="Channel", value=channelObj.mention)
+            lock_logs.add_field(name="Channel", value=channelobj.mention)
             lock_logs.add_field(name="Moderator", value=ctx.author.mention)
             await self.client.get_channel(MOD_LOGS).send(embed=lock_logs)
         else:
-            await ctx.channel.send("Lawda, I am not Dyno to let you do this")
+            await ctx.reply("Lawda, I am not Dyno to let you do this")
 
     # @ commands.command(aliases=['unlock'])
     @cog_ext.cog_slash( name="unlock",
