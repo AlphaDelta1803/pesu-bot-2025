@@ -60,7 +60,7 @@ class misc(commands.Cog):
             self.muted = get(self.guildObj.roles, id=1032709443919560834)
         except:
             pass
-    # @ commands.command(aliases = ['uptime', 'ut'])
+
     @cog_ext.cog_slash( name="uptime",
                         guild_ids=[GUILD_ID],
                         description="Shows how long the bot has been online for"
@@ -70,8 +70,6 @@ class misc(commands.Cog):
         seconds = (currTime - self.startTime)//1
         await ctx.reply("Bot uptime: `{}`".format(str(timedelta(seconds = seconds))))   
 
-    # @commands.command(aliases=['c', 'count'])
-    # @cog_ext.cog_slash(name="count",guild_ids=[GUILD_ID],description="Returns a number of users with specified role",options=[create_option(name="roleName",description="The role name **NOT MENTION**",option_type=3,required=True)])
     @cog_ext.cog_slash( name="count",
                         description="Counts the number of users with a specific",
                         guild_ids=[GUILD_ID],

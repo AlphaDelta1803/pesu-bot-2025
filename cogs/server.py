@@ -8,6 +8,8 @@ from datetime import datetime
 from selenium import webdriver
 from pathlib import Path
 from cogs.helpers import helpers
+from discord_slash.utils.manage_commands import create_option, create_choice
+from discord_slash import cog_ext, utils
 
 BOT_TEST = 1032709445324652605
 BOT_LOGS = 1032709445324652606
@@ -211,10 +213,13 @@ class server(commands.Cog):
         await ctx.channel.send(embed=help_embed)
 
 
-    @commands.command(aliases=['ping', 'Ping'])
+    @cog_ext.cog_slash( name="ping",
+                        guild_ids=[GUILD_ID],
+                        description="Check for latency"
+                      )
     async def _ping(self, ctx):
         ps = f"Pong!!!\nPing = `{str(round(self.client.latency * 1000))} ms`"
-        await ctx.channel.send(ps)
+        await ctx.reply(ps)
 
 
     def getDeverified(self, a=""):
