@@ -404,22 +404,20 @@ class misc(commands.Cog):
                         description="Starts a poll",
                         options=[
                             create_option(
-                                name="msg",
-                                description="Message",
+                                name="question",
+                                description="Question or statement",
                                 option_type=3,
-                                required=False
+                                required=True
+                            ),
+                            create_option(
+                                name="msg",
+                                description="[option1][option2][option3]",
+                                option_type=3,
+                                required=True
                             )
                         ]
                       )
-    async def poll_command(self, ctx, *, msg: str = ''):
-        poll_help = discord.Embed(title="Start a poll", color=0x2a8a96)
-        poll_help.add_field(
-            name="p!poll", value="Usage:\np!poll Message [Option1][Option2]...[Option9]", inline=False)
-        poll_help.add_field(
-            name="\u200b", value="To get results of a poll, use `p!pollshow [message ID]`", inline=False)
-        if(msg == ''):
-            await ctx.reply(embed=poll_help)
-            return
+    async def poll_command(self, ctx, *, question, msg: str = ''):
         msg_1 = msg.split('[')
         poll_list = []
         for i in msg_1:
@@ -427,27 +425,25 @@ class misc(commands.Cog):
             if(j == ''):
                 continue
             poll_list.append(j.strip())
-        if(len(poll_list) == 1):
-            await ctx.reply("Not enough parameters")
-            await ctx.reply(embed=poll_help)
-        elif(len(poll_list) == 2):
-            await ctx.reply("You need more than one choice")
+        if(len(poll_list) == 0):
+            await ctx.reply("Not enough parameters", hidden=True)
+        elif(len(poll_list) == 1):
+            await ctx.reply("You need more than one choice", hidden=True)
         elif(len(poll_list) > 10):
-            await ctx.reply("Can't have more than nine choice")
+            await ctx.reply("Can't have more than nine choice", hidden=True)
         else:
-            question = poll_list[0]
-            options = poll_list[1:]
+            options = poll_list
             reactions_list = [':one:', ':two:', ':three:', ':four:',
                               ':five:', ':six:', ':seven:', ':eight:', ':nine:']
             new_list = ['1️⃣', '2️⃣', '3️⃣', '4️⃣',
                         '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣']
             poll_embed = discord.Embed(title=question, color=0x7289da, timestamp=datetime.now(IST))
-            for i in range(len(poll_list)-1):
+            for i in range(len(poll_list)):
                 poll_embed.add_field(
                     name="\u200b", value=f"{reactions_list[i]} {options[i]}", inline=False)
             poll_embed.set_footer(text=f"Poll by {ctx.author}")
-            required_message = await ctx.channel.send(embed=poll_embed)
-            for i in range(len(poll_list)-1):
+            required_message = await ctx.reply(embed=poll_embed)
+            for i in range(len(poll_list)):
                 await required_message.add_reaction(new_list[i])
 
     @commands.command(aliases=['pollshow', 'ps'])
@@ -762,26 +758,25 @@ class misc(commands.Cog):
                 if(msg_id_str in msgList):
                     if(key not in banList):
                         banFile.write(f"{key}\n")
-                        await ctx.reply("Member banned succesfully") #, hidden=True)
+                        await ctx.reply("Member banned succesfully", hidden=True)
                         banFile.close()
                         try:
                             dm = await self.client.fetch_user(int(key))
                             dm_embed = discord.Embed(title="Notification", description="You have been banned from submitting confessions", color=discord.Color.red())
                             await dm.send(embed=dm_embed)
                         except:
-                            await ctx.reply("DMs were closed") #, hidden=True)
+                            await ctx.reply("DMs were closed", hidden=True)
                         return
                     else:
-                        await ctx.reply("This fellow was already banned") #, hidden=True)
+                        await ctx.reply("This fellow was already banned", hidden=True)
                 else:
                     continue
-            await ctx.reply("Could not ban") #, hidden=True)
+            await ctx.reply("Could not ban", hidden=True)
             banFile.close()
         else:
-            await ctx.reply("You are not authorised to do this")
+            await ctx.reply("You are not authorised to do this", hidden=True)
 
-    @commands.command(aliases=['confessbanuser', 'cbu'])
-    #@cog_ext.cog_slash(name="confessbanuser", description="Bans a user from submitting confessions", options=[create_option(name="member", description="User/Member to ban", option_type=6, required=True)])
+    @cog_ext.cog_slash(name="confessbanuser", description="Bans a user from submitting confessions", guild_ids=[GUILD_ID], options=[create_option(name="member", description="User/Member to ban", option_type=6, required=True)])
     async def confess_ban_user(self, ctx, member: discord.Member):
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             # await ctx.defer(hidden=True)
@@ -794,18 +789,18 @@ class misc(commands.Cog):
             if(user_id not in banList):
                 banFile = open('cogs/ban_list.csv', 'a')
                 banFile.write(f"{user_id}\n")
-                await ctx.send("User banned succesfully") #, hidden=True)
+                await ctx.reply("User banned succesfully") #, hidden=True)
                 banFile.close()
                 try:
                     dm = await self.client.fetch_user(int(user_id))
                     dm_embed = discord.Embed(title="Notification", description="You have been banned from submitting confessions", color=discord.Color.red())
                     await dm.send(embed=dm_embed)
                 except:
-                    await ctx.send("DMs were closed") #, hidden=True)
+                    await ctx.reply("DMs were closed") #, hidden=True)
             else:
-                await ctx.send("This user has already been banned") #, hidden=True)
+                await ctx.reply("This user has already been banned") #, hidden=True)
         else:
-            await ctx.send("You are not authorised for this")
+            await ctx.reply("You are not authorised for this")
 
     @commands.command(aliases=['confessunban', 'cub'])
     #@cog_ext.cog_slash(name="confessunbanuser", description="Unbans a user from submitting confessions", options=[create_option(name="member", description="User/Member to unban", option_type=6, required=True)])
