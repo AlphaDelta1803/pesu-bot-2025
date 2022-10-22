@@ -15,6 +15,7 @@ from discord_slash.utils.manage_commands import create_option, create_choice
 from datetime import datetime, timedelta
 import pytz
 from clean import *
+import io
 IST = pytz.timezone('Asia/Kolkata')
 
 pesuID = 931592628640813177
@@ -36,7 +37,7 @@ class misc(commands.Cog):
         self.unmute = '`!unmute`\n!unmute {Member mention}\n\nUnmutes the user'
         self.lock = '`!lock`\n!lock {Channel mention} {Reason: optional}\n\nLocks the specified channel'
         self.unlock = '`!unlock`\n!unlock {Channel mention}\n\nUnlocks the specified channel'
-        # self.kick = '`!kick`\n!kick {Member mention} {Reason: optional}\n\nKicks the member from the server'
+        self.kick = '`!kick`\n!kick {Member mention} {Reason: optional}\n\nKicks the member from the server'
         self.confessions = {}
         self.mutedict = {}
         self.startTime = int(presentTime())
@@ -60,21 +61,38 @@ class misc(commands.Cog):
             self.muted = get(self.guildObj.roles, id=1032709443919560834)
         except:
             pass
-    @ commands.command(aliases = ['uptime', 'ut'])
+    # @ commands.command(aliases = ['uptime', 'ut'])
+    @cog_ext.cog_slash( name="uptime",
+                        guild_ids=[GUILD_ID],
+                        description="Shows how long the bot has been online for"
+                      )
     async def _upTime(self, ctx):
         currTime = int(presentTime())
         seconds = (currTime - self.startTime)//1
-        await ctx.send("Bot uptime: `{}`".format(str(timedelta(seconds = seconds))))
+        await ctx.reply("Bot uptime: `{}`".format(str(timedelta(seconds = seconds))))   
 
-    @commands.command(aliases=['c', 'count'])
-    async def _count(self, ctx, *, roleName:str = ''):
-        roleName = roleName.split('&')
+    # @commands.command(aliases=['c', 'count'])
+    # @cog_ext.cog_slash(name="count",guild_ids=[GUILD_ID],description="Returns a number of users with specified role",options=[create_option(name="roleName",description="The role name **NOT MENTION**",option_type=3,required=True)])
+    @cog_ext.cog_slash( name="count",
+                        description="Counts the number of users with a specific",
+                        guild_ids=[GUILD_ID],
+                        options=[
+                            create_option(
+                                name="rolename",
+                                description="The channel to be unlocked",
+                                option_type=3,
+                                required=False
+                            )
+                        ]
+                      )
+    async def _count(self, ctx, rolename = ""):
+        rolename = rolename.split('&')
         temp = []
-        for i in roleName:
+        for i in rolename:
             temp.append(i.strip())
-        roleName = temp
-        await ctx.channel.send(f"Got request for role {str(roleName)}")
-        if(roleName == ['']):
+        rolename = temp
+        await ctx.reply(f"Got request for role {str(rolename)}")
+        if(rolename == ['']):
             await ctx.channel.trigger_typing()
             for guild in self.client.guilds:
                 total = len(guild.members)
@@ -111,10 +129,10 @@ class misc(commands.Cog):
                     Total number of members from EC: `{ecPeeps}`
                     Number of people that can see this channel: `{hooman}`
                     Number of bots that can see this channel: `{bots}`"""
-                await ctx.channel.send(stats)
+                await ctx.reply(stats)
         else:
             thisRole = []
-            for roles in roleName:
+            for roles in rolename:
                 thisRole.append(get(ctx.guild.roles, name=roles))
             for guild in self.client.guilds:
                 count = 0
@@ -126,7 +144,7 @@ class misc(commands.Cog):
                             boolean = False
                     if boolean:
                         count += 1
-            await ctx.channel.send(f"{str(count)} people has role {str(thisRole)}")
+            await ctx.reply(f"{str(count)} people has role {str(thisRole)}")
 
     #@commands.command(aliases=['p', 'purge'])
     #async def _clear(self, ctx, amt=0):
@@ -309,33 +327,45 @@ class misc(commands.Cog):
         else:
             await ctx.channel.send("Lawda, I am not Dyno to let you do this")
 
-    @ commands.command(aliases=['unlock'])
-    async def _unlock_channel(self, ctx, channelObj:discord.TextChannel = None):
+    # @ commands.command(aliases=['unlock'])
+    @cog_ext.cog_slash( name="unlock",
+                        description="Unlocks the specified channel",
+                        guild_ids=[GUILD_ID],
+                        options=[
+                            create_option(
+                                name="channel",
+                                description="The channel to be unlocked",
+                                option_type=7,
+                                required=False
+                            )
+                        ]
+                      )
+    async def _unlock_channel(self, ctx, channel:discord.TextChannel = None):
         unlock_help_embed = discord.Embed(
             title="Unlock", color=0x48BF91, description=self.unlock)
         overwrites = discord.PermissionOverwrite(view_channel=False)
 
-        if(channelObj == None):
-            channelObj = ctx.channel
+        if(channel == None):
+            channel = ctx.channel
 
-        perms = channelObj.overwrites_for(ctx.guild.default_role)
+        perms = channel.overwrites_for(ctx.guild.default_role)
 
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             if ((perms.view_channel == False) and (perms.send_messages == False)):
-                await channelObj.set_permissions(ctx.guild.default_role, overwrite=overwrites)
+                await channel.set_permissions(ctx.guild.default_role, overwrite=overwrites)
                 unlock_embed = discord.Embed(
                     title="Channel Unlocked :unlock:", color=0x00ff00)
-                await channelObj.send(embed=unlock_embed)
+                await channel.send(embed=unlock_embed)
                 unlock_message = discord.Embed(
-                    title="", color=0x00ff00, description=f"Unlocked {channelObj.mention}")
+                    title="", color=0x00ff00, description=f"Unlocked {channel.mention}")
                 await ctx.channel.send(embed=unlock_message)
                 unlock_logs = discord.Embed(title="Unlock", color=0x00ff00)
-                unlock_logs.add_field(name="Channel", value=channelObj.mention)
+                unlock_logs.add_field(name="Channel", value=channel.mention)
                 unlock_logs.add_field(
                     name="Moderator", value=ctx.author.mention)
-                await self.client.get_channel(MOD_LOGS).send(embed=unlock_logs)
+                await self.client.get_channel(MOD_LOGS).reply(embed=unlock_logs)
             else:
-                await ctx.send("Lawda that channel is already unlocked")
+                await ctx.reply("Lawda that channel is already unlocked")
         else:
             await ctx.channel.send("Lawda, I am not dyno to let you do this")
 
@@ -371,7 +401,19 @@ class misc(commands.Cog):
     #        name="Important", value="**Under no circumstances is anyone allowed to merge to the main branch.**", inline=False)
     #    await ctx.send(embed=Embeds)
 
-    @commands.command(aliases=['poll'])
+    # @commands.command(aliases=['poll'])
+    @cog_ext.cog_slash( name="poll",
+                        guild_ids=[GUILD_ID],
+                        description="Starts a poll",
+                        options=[
+                            create_option(
+                                name="msg",
+                                description="Message",
+                                option_type=3,
+                                required=False
+                            )
+                        ]
+                      )
     async def poll_command(self, ctx, *, msg: str = ''):
         poll_help = discord.Embed(title="Start a poll", color=0x2a8a96)
         poll_help.add_field(
@@ -379,7 +421,7 @@ class misc(commands.Cog):
         poll_help.add_field(
             name="\u200b", value="To get results of a poll, use `p!pollshow [message ID]`", inline=False)
         if(msg == ''):
-            await ctx.channel.send(embed=poll_help)
+            await ctx.reply(embed=poll_help)
             return
         msg_1 = msg.split('[')
         poll_list = []
@@ -389,12 +431,12 @@ class misc(commands.Cog):
                 continue
             poll_list.append(j.strip())
         if(len(poll_list) == 1):
-            await ctx.channel.send("Not enough parameters")
-            await ctx.channel.send(embed=poll_help)
+            await ctx.reply("Not enough parameters")
+            await ctx.reply(embed=poll_help)
         elif(len(poll_list) == 2):
-            await ctx.channel.send("You need more than one choice")
+            await ctx.reply("You need more than one choice")
         elif(len(poll_list) > 10):
-            await ctx.channel.send("Can't have more than nine choice")
+            await ctx.reply("Can't have more than nine choice")
         else:
             question = poll_list[0]
             options = poll_list[1:]
@@ -453,16 +495,34 @@ class misc(commands.Cog):
         plt.close()
         os.remove('ps.jpg')
 
-    @ commands.command(aliases=['kick'])
+    # @ commands.command(aliases=['kick'])
+    @cog_ext.cog_slash( name="kick",
+                        description="Kicks the member from the server",
+                        options=[
+                            create_option(
+                                name="memb",
+                                description="Member to be kicked or members seperated by \" \"",
+                                option_type=3,
+                                required=True
+                            ),
+                            create_option(
+                                name="reason",
+                                description="The reason for kick",
+                                option_type=3,
+                                required=True
+                            )
+                        ]
+                      )
     async def _kick(self, ctx, memb, *, reason:str = ""):
         kick_help_embed = discord.Embed(
             title="Kick", color=0x48BF91, description=self.kick)
 
         if(reason == ""):
             reason = "no reason given"
-        mens = ctx.message.raw_mentions
+        mens = [int(i.replace('<', "").replace(">", "").replace("@", "")) for i in memb.split(" ")]
+
         if(len(mens) == 0):
-            await ctx.send("Mention the user and not just the name", embed=kick_help_embed)
+            await ctx.reply("Mention the user and not just the name", embed=kick_help_embed)
             return
         else:
             member = mens[0]
@@ -470,7 +530,7 @@ class misc(commands.Cog):
 
         # a small little spartan easter egg
         if ((self.bots in member.roles) and (ctx.author.id == 621677829100404746)):
-            await ctx.send("AAAAAAAAAAAAAHHHHHHHHHHHH no no no not again spartan!!! NOOOO")
+            await ctx.reply("AAAAAAAAAAAAAHHHHHHHHHHHH no no no not again spartan!!! NOOOO")
             return
 
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
@@ -489,7 +549,7 @@ class misc(commands.Cog):
                 try:
                     await member.send(f"You were kicked from the PES'25 Batch Discord Server\n Reason: {reason}")
                 except:
-                    await ctx.send("that nonsense fellow hasn't opened his DMs only")
+                    await ctx.reply("that nonsense fellow hasn't opened his DMs only")
                 await ctx.guild.kick(member, reason=reason)
         else:
             await ctx.channel.send("Lawda, I am not dyno to let you do this")
@@ -572,20 +632,22 @@ class misc(commands.Cog):
         else:
             await ctx.send("You are not authorised for this command")
 
-    @commands.command(aliases=['restart'])
+    # @commands.command(aliases=['restart'])
+    @cog_ext.cog_slash( name="restart",
+                        guild_ids=[GUILD_ID],
+                        description="Restarts the bot"
+                      )
     async def _restart(self, ctx):
         BOT_TEST = 1032709445324652605
         if ctx.author.id == 523340943437594624:
             await self.git_pull(ctx)
-            with open('cogs/verified.csv', 'r') as fp:
-                await self.client.get_channel(BOT_TEST).send(file=discord.File(fp, 'verified.csv'))
-            fp.close()
+            await self.client.get_channel(BOT_TEST).send(file=discord.File("cogs/verified.csv"))
             p = subprocess.Popen(['python3', 'start.py'])
             sys.exit(0)
         else:
-            await ctx.channel.send("Cuteeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+            await ctx.reply("Cuteeeeeeeeeeeeeeeeeeeeeeeeeeeee")
             await asyncio.sleep(1)
-            await ctx.channel.send("**NO.**")
+            await ctx.reply("**NO.**")
 
     @commands.command(aliases=['enableconfess'])
     async def flush_slash(self, ctx):

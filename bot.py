@@ -6,10 +6,10 @@ from discord_slash import SlashCommand
 
 load_dotenv('.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
-
 client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.Intents().all())
-slash = SlashCommand(client, sync_on_cog_reload = True)
+slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 BOT_LOGS = 931523901731799080
+
 
 @client.command(aliases = ['loadit'])
 async def load(ctx, extension):
@@ -39,7 +39,6 @@ async def unload(ctx, extension):
             await ctx.channel.send(e)
     else:
         await ctx.channel.send("Unauthorised")
-
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):

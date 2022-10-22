@@ -136,7 +136,22 @@ class verification(commands.Cog):
                     await sleep(6)
                     await ctx.channel.purge(limit=4)
                     return
-                if dat[2] == 'Sem-8':
+                if dat[2] == 'Sem-7':
+                    role_str = "Seniors"
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
+                    try:
+                        role = get(user.guild.roles, name=role_str)
+                        st_role = get(user.guild.roles, name=str_rl)
+                        cp_role = get(user.guild.roles, name=camp_rl)
+                        await user.add_roles(role)
+                        await user.add_roles(st_role)
+                        await user.add_roles(cp_role)
+                    except Exception as e:
+                        print(e)
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
+                        return
+                elif dat[2] == 'Sem-8':
                     role_str = "Seniors"
                     str_rl = stream(dat[6])
                     camp_rl = campus(dat[7])
@@ -161,11 +176,70 @@ class verification(commands.Cog):
                     await sleep(6)
                     await ctx.channel.purge(limit=4)
                     return
-
+                if(dat[2] == 'Sem-1'):
+                    role_str = "First Year Keeds"
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
+                    try:
+                        role = get(user.guild.roles, name=role_str)
+                        st_role = get(user.guild.roles, name=str_rl)
+                        cp_role = get(user.guild.roles, name=camp_rl)
+                        await user.add_roles(role)
+                        await user.add_roles(st_role)
+                        await user.add_roles(cp_role)
+                    except Exception as e:
+                        print(e)
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
+                        return
+                elif(dat[2] == 'Sem-2'):
+                    role_str = "First Year Keeds"
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
+                    try:
+                        role = get(user.guild.roles, name=role_str)
+                        st_role = get(user.guild.roles, name=str_rl)
+                        cp_role = get(user.guild.roles, name=camp_rl)
+                        await user.add_roles(role)
+                        await user.add_roles(st_role)
+                        await user.add_roles(cp_role)
+                    except Exception as e:
+                        print(e)
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
+                        return
+                elif(dat[2] == 'Sem-3'):
+                    role_str = "Second Year"
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
+                    try:
+                        role = get(user.guild.roles, name=role_str)
+                        st_role = get(user.guild.roles, name=str_rl)
+                        cp_role = get(user.guild.roles, name=camp_rl)
+                        await user.add_roles(role)
+                        await user.add_roles(st_role)
+                        await user.add_roles(cp_role)
+                    except Exception as e:
+                        print(e)
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
+                        return
+                elif(dat[2] == 'Sem-4'):
+                    role_str = "Second Year"
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
+                    try:
+                        role = get(user.guild.roles, name=role_str)
+                        st_role = get(user.guild.roles, name=str_rl)
+                        cp_role = get(user.guild.roles, name=camp_rl)
+                        await user.add_roles(role)
+                        await user.add_roles(st_role)
+                        await user.add_roles(cp_role)
+                    except Exception as e:
+                        print(e)
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
+                        return
                 if(dat[2] == 'Sem-5'):
                     role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
                     try:
                         role = get(user.guild.roles, name=role_str)
                         st_role = get(user.guild.roles, name=str_rl)
@@ -179,8 +253,8 @@ class verification(commands.Cog):
                         return
                 elif(dat[2] == 'Sem-6'):
                     role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
+                    str_rl = stream(dat[6])
+                    camp_rl = campus(dat[7])
                     try:
                         role = get(user.guild.roles, name=role_str)
                         st_role = get(user.guild.roles, name=str_rl)
@@ -192,36 +266,8 @@ class verification(commands.Cog):
                         print(e)
                         await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
                         return
-                elif(dat[2] == 'Sem-2'):
-                    role_str = "Second Years"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
-                    try:
-                        role = get(user.guild.roles, name=role_str)
-                        st_role = get(user.guild.roles, name=str_rl)
-                        cp_role = get(user.guild.roles, name=camp_rl)
-                        await user.add_roles(role)
-                        await user.add_roles(st_role)
-                        await user.add_roles(cp_role)
-                    except Exception as e:
-                        print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
-                        return
-                elif(dat[2] == 'Sem-4'):
-                    # role_str = "Seniors"
-                    str_rl = stream(dat[-2])
-                    camp_rl = campus(dat[-1])
-                    try:
-                        role = get(user.guild.roles, name="Seniors")
-                        st_role = get(user.guild.roles, name=str_rl)
-                        cp_role = get(user.guild.roles, name=camp_rl)
-                        await user.add_roles(role)
-                        await user.add_roles(st_role)
-                        await user.add_roles(cp_role)
-                    except Exception as e:
-                        print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
-                        return
+                
+                
                 #if(role_str not in [r.name for r in ctx.guild.roles]):
                 #    await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
                 #    return
