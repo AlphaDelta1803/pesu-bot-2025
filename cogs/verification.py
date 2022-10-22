@@ -8,6 +8,7 @@ BOT_TEST = 1032709445324652605
 BOT_LOGS = 1032709445324652606
 GUILD_ID = 1032709443860832426
 
+
 def stream(inp):
     if inp == "ECE":
         return "ECE"
@@ -58,7 +59,6 @@ class verification(commands.Cog):
         self.info = '`!i` or `!info`\n!i {Member mention}\n!i {Member ID}\n\nReturns the information about a verified user on this server'
         self.deverify = '`!d` or `!deverify`\n!d {Member mention}\n\nDeverifies and removes the data of the user from the verified list'
         self.load_roles()
-
 
     @commands.Cog.listener()
     async def on_ready(self):
