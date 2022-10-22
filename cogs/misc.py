@@ -744,8 +744,8 @@ class misc(commands.Cog):
                 continue
         confessions[memberId] = [messageId]
 
-    @commands.command(aliases=['confessban', 'cb'])
-    # @cog_ext.cog_slash(name="confessban", description="Bans a user from submitting confessions who submitted a confession based on message ID", options=[create_option(name="msg_id", description="Message ID of the confession", option_type=3, required=True)])
+    # @commands.command(aliases=['confessban', 'cb'])
+    @cog_ext.cog_slash(name="confessban", description="Bans a user from submitting confessions who submitted a confession based on message ID", guild_ids=[GUILD_ID], options=[create_option(name="msg_id", description="Message ID of the confession", option_type=3, required=True)])
     async def confess_ban(self, ctx, msg_id: str):
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             # await ctx.defer(hidden=True)
@@ -762,23 +762,23 @@ class misc(commands.Cog):
                 if(msg_id_str in msgList):
                     if(key not in banList):
                         banFile.write(f"{key}\n")
-                        await ctx.send("Member banned succesfully") #, hidden=True)
+                        await ctx.reply("Member banned succesfully") #, hidden=True)
                         banFile.close()
                         try:
                             dm = await self.client.fetch_user(int(key))
                             dm_embed = discord.Embed(title="Notification", description="You have been banned from submitting confessions", color=discord.Color.red())
                             await dm.send(embed=dm_embed)
                         except:
-                            await ctx.send("DMs were closed") #, hidden=True)
+                            await ctx.reply("DMs were closed") #, hidden=True)
                         return
                     else:
-                        await ctx.send("This fellow was already banned") #, hidden=True)
+                        await ctx.reply("This fellow was already banned") #, hidden=True)
                 else:
                     continue
-            await ctx.send("Could not ban") #, hidden=True)
+            await ctx.reply("Could not ban") #, hidden=True)
             banFile.close()
         else:
-            await ctx.send("You are not authorised to do this")
+            await ctx.reply("You are not authorised to do this")
 
     @commands.command(aliases=['confessbanuser', 'cbu'])
     #@cog_ext.cog_slash(name="confessbanuser", description="Bans a user from submitting confessions", options=[create_option(name="member", description="User/Member to ban", option_type=6, required=True)])
