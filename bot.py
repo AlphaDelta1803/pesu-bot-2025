@@ -11,6 +11,20 @@ slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 BOT_LOGS = 931523901731799080
 
 
+@client.command(description="Mutes users", guild=discord.Object(id=931588180174589983))
+async def mute(ctx, member:discord.Member):
+    role=discord.utils.get(ctx.guild.roles, name="Muted")
+    guild=ctx.guild
+    if role not in guild.roles:
+        perms=discord.Permissions(send_message=False, speak=False)
+        await guild.create_role(name="Muted", permissions=perms)
+        await member.add_roles(role)
+        await ctx.send(f"{member} was muted.")
+    else:
+        await member.add_roles(role)
+        await ctx.send(f"{member} was muted.")
+
+
 @client.command(aliases = ['loadit'])
 async def load(ctx, extension):
     bot_devs = discord.utils.get(ctx.guild.roles, id=931588180174589983)
