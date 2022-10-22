@@ -17,7 +17,7 @@ def scrape(c, yr):
     opts.headless = True
     browser = Firefox(options=opts)
     print("Browser running")
-    fName = "batch_of_" + yr + ".csv"
+    fName = "batch_of_" + yr + ".csv"   #prints the batch of the student using their SRN
     f = open(fName, "a")
     f1 = open("errors.txt", "a")
     print("Files created")
@@ -32,7 +32,7 @@ def scrape(c, yr):
             s = str(i)
         browser.get('https://pesuacademy.com')
         sleep(2)
-        browser.find_element(By.ID, "knowClsSection").click()
+        browser.find_element(By.ID, "knowClsSection").click()     #class of the student
         inp = browser.find_element(By.ID, "knowClsSectionModalLoginId")
         inputPRN = st + yr + "0" + s
         inp.send_keys(inputPRN)

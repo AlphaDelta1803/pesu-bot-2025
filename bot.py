@@ -10,7 +10,6 @@ client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.In
 slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 BOT_LOGS = 931523901731799080
 
-
 @client.command(aliases = ['loadit'])
 async def load(ctx, extension):
     bot_devs = discord.utils.get(ctx.guild.roles, id=931588180174589983)
