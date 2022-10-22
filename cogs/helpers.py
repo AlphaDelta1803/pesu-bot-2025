@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import sqlite3
+import sqlite3 #required to work with sqlite database for registering server members
 
 
 class helpers(commands.Cog):
@@ -40,14 +40,15 @@ class helpers(commands.Cog):
         return ['error']
 '''     
         con = sqlite3.connect("verified.db") #assuming name of database
-        cur = con.cursor()
+        #creating connection object to a db file
+        cur = con.cursor() #creating cursor to execute queries
         query = "SELECT SRN FROM verified WHERE SRN = {RegNo}"
         if(RegNo!=""):
-            res = cur.execute(query.format(RegNo = RegNo))
+            res = cur.execute(query.format(RegNo = RegNo)) #executes queries
         else:
             return['error']
         if res!='NULL':
-            con.close()
+            con.close() #closes connection object if no matching entry is found
             return['Done']
         con.close()
         con2 = None
@@ -66,10 +67,10 @@ class helpers(commands.Cog):
         else:
             cur = con.cursor()
             #assuming table name
-            res = cur.execute("SELECT * FROM list WHERE SRN = "{RegNo}"".format(RegNo = RegNo))
+            res = cur.execute("SELECT * FROM list WHERE SRN = {RegNo}".format(RegNo = RegNo))
             if(res!='NULL'):
                 con2.close()
-                return res.split(',')
+                return res.split(',') #splits the results around commas
         
         con2.close()
         return ['error']
@@ -82,12 +83,12 @@ class helpers(commands.Cog):
         file1 = open('cogs/verified.csv', 'r')
 
         for line in file1:
-            if(regNo not in line.split(',')):
+            if(regNo not in line.split(',')): #CSV files are comma separated and so it is necessary to split them by commas to make the data usable and easy to manipulate
                 dat += line
             else:
                 ret = True
 
-        file1.close()
+        file1.close() #closes the file object
         file1 = open('cogs/verified.csv', 'w')
         file1.write(dat)
         file1.close()
