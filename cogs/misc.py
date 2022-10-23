@@ -17,11 +17,11 @@ from clean import *
 import io
 IST = pytz.timezone('Asia/Kolkata')
 
-pesuID = 931592628640813177
-botID = 931592628640813177
-confessChannel = 1032709445534359627
-GUILD_ID = 1032709443860832426
-MOD_LOGS = 1032709445324652604
+os.getenv('pesuID')
+os.getenv('botID')
+os.getenv('confessChannel')
+os.getenv('GUILD_ID')
+os.getenc('MOD_LOGS')
 TOKEN = os.getenv('DISCORD_TOKEN')
 electiveChoiceList = []
 
@@ -266,6 +266,22 @@ class misc(commands.Cog):
                 await ctx.channel.send(f"{ctx.author.mention}, mention the user, not just the name", embed=mute_help_embed)
         else:
             await ctx.channel.send("Lawda you're not authorised to do that")
+    
+    
+        @cog_ext.cog_slash(name="p!pull", description="Runs 'git pull' automatically", options=[create_option(name="Git Pull", description="Executes 'git pull' command", option_type=3, required=True))
+        async def git_pull(self, ctx):
+            if ctx.author.id == 523340943437594624:
+                sys.stdout.flush()
+                p = subprocess.Popen(['git', 'pull'], stdout=subprocess.PIPE)
+                for line in iter(p.stdout.readline, ''):
+                    if not line:
+                        break
+                    await ctx.channel.send(str(line.rstrip(), 'utf-8', 'ignore'))
+                sys.stdout.flush()
+            else:
+                await ctx.channel.send("Lawda what are you trying to pull, you can't execute this command")
+
+
 
     @ commands.command(aliases=['unmute'])
     async def _unmute(self, ctx, member: discord.Member):

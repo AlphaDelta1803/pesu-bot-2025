@@ -12,7 +12,11 @@ client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.In
 #having no help command, and subscribed (listening) to all events
 slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 
-BOT_LOGS = 931523901731799080
+client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.Intents().all())
+slash = SlashCommand(client, sync_on_cog_reload = True)
+
+
+BOT_LOGS = os.getenv('BOT_LOGS')
 BOT_ROLE = 931588180174589983 #bot role id
 
 

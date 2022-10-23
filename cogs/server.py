@@ -11,11 +11,11 @@ from cogs.helpers import helpers
 from discord_slash.utils.manage_commands import create_option, create_choice
 from discord_slash import cog_ext, utils
 
-BOT_TEST = 1032709445324652605
-BOT_LOGS = 1032709445324652606
-GUILD_ID = 1032709443860832426
-botID = 931592628640813177
-MOD_LOGS = 1032709445324652604
+os.getenv('BOT_TEST') 
+os.getenv('BOT_LOGS')
+os.getenv('GUILD_ID')
+os.getenv('botID')
+os.getenv('MOD_LOGS')
 
 ADMIN = 1032709443940524228
 MODS = 1032709443940524227
