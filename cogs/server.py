@@ -8,6 +8,8 @@ from datetime import datetime
 from selenium import webdriver
 from pathlib import Path
 from cogs.helpers import helpers
+from discord_slash.utils.manage_commands import create_option, create_choice
+from discord_slash import cog_ext, utils
 
 os.getenv('BOT_TEST') 
 os.getenv('BOT_LOGS')
@@ -15,36 +17,48 @@ os.getenv('GUILD_ID')
 os.getenv('botID')
 os.getenv('MOD_LOGS')
 
+ADMIN = 1032709443940524228
+MODS = 1032709443940524227
+BOT_DEVS = 1032709443940524226
+JUST_JOINED = 1032714828197937152
+VERIFIED = 1032714872695304203
+SENIOR = 1032714925832949820
+
+
+
+
+
+
 class server(commands.Cog):
 
     def __init__(self, client):
         self.client = client
-        self.uptimeinfo ="`p!uptime` or `p!ut`\n\n\nShows how long the bot has been online for"
-        self.loadit = "`p!loadit`\n`p!loadit <extention>`\n\nLoads the extention"
-        self.unloadit = "`p!unloadit`\n`p!unloadit <extention>`\n\nUnloads the extention"
-        self.polsho = "`p!pollshow` or `p!ps`\n`p!ps <pollMessageLink>`\n\nShows the results of the poll"
-        self.pull = "`p!pull`\n\n\nPull the latest code of the bot. Maybe."
-        self.scrape = "`p!scrape`\nIdk how this works tbh"
-        self.rest = "`p!restart`\n\n\nRestarts the bot :flushed:"
-        self.confessen = "`p!enableconfess`\n\n\nEnables the confess feature"
-        self.confessdis = "`p!disableconfess`\n\n\nDisables the confess feature"
+        self.uptimeinfo ="`p!uptime` or `p!ut`\n\n\nShows how long the bot has been online for\n\n"
+        self.loadit = "`p!loadit <extention>`\n\n\nLoads the extention\n\n"
+        self.unloadit = "`p!unloadit <extention>`\n\nUnloads the extention\n\n"
+        self.polsho = "`p!pollshow` or `p!ps <pollMsgLink>`\n\nShows the results of the poll\n\n"
+        self.pull = "`p!pull`\n\nPull the latest code of the bot. Maybe.\n\n"
+        self.scrape = "`p!scrape`\n\nIdk how this works tbh :upside_down:\n\n"
+        self.rest = "`p!restart`\n\nRestarts the bot :flushed:\n\n"
+        self.confessen = "`p!enableconfess`\n\n\nEnables the confess feature\n\n"
+        self.confessdis = "`p!disableconfess`\n\n\nDisables the confess feature\n\n"
 	#self.confbanusr =
-        self.veri = '`p!v` or `p!verify`\np!v help\np!v {SRN}'
-        self.count = '`p!c` or `p!count`\np!c {Role name(don\'t mention it, type it out)}\n\nReturns the number of people with the speified role'
-        self.ping = '`p!ping` or `p!Ping`\n\nReturns the bot\'s latency'
+        self.veri = '`p!v` or `p!verify`\np!v help\np!v {SRN}\n\n'
+        self.count = '`p!c` or `p!count <role [Not mention]>`\n\nReturns the number of people with the specified role\n\n'
+        self.ping = '`p!ping` or `p!Ping`\n\n\nReturns the bot\'s latency\n\n'
         # self.news = '`!news [optional]`\n\nPESU Academy Notifications\nUsage:\n`!news`: Gets the latest announcement\n`!news today`: Gets today\'s announcements\n`!news {N}`: Gets the last "N" announcements(where N is a number)\n`!news today {N}`: Gets last "N" announcements made today\n`!news all`: Gets all announcements(max: 10)'
-        self.poll = '`p!poll`\nType `p!poll` to know more\nStarts a poll'
-        self.info = '`p!i` or `p!info`\np!i <Mention>\np!i <UserID>\n\nReturns the information about a verified user on this server'
-        self.deverify = '`p!d` or `p!deverify`\np!d <Mention>\n\nDeverifies and removes the data of the user from the verified list'
-        self.fil = '''`p!f` or `p!file`\n\nSends the verified.csv file to <#931523862443724830>'''
+        self.poll = '`p!poll`\n\n\nStarts a poll\n\n'
+        self.info = '`p!i` or `p!info <Mention>|<UserID>`\n\nReturns the information about a verified user on this server\n\n'
+        self.deverify = '`p!d` or `p!deverify`\n\n\nDeverifies and removes the data of the user from the verified list\n\n'
+        self.fil = f'`p!f` or `p!file`\n\nSends the verified.csv file to <#{931523862443724830}>\n\n'
         #self.purge = '`p!p` or `p!purge`\n!p <amount>\n\nPurges the specified number of messages(limit=1000)'
-        self.echo = '`p!e` or `p!echo`\n!e <channel> {Text}\n\nEchoes a message through the bot to the specified channel'
-        self.mute = '`p!mute`\np!mute <Mention> <Time> {Reason}\n\nMutes the user for the specified time'
-        self.unmute = '`p!unmute`\np!unmute <Mention>\n\nUnmutes the user'
-        self.lock = '`p!lock`\np!lock <channel> {Reason}\n\nLocks the specified channel'
-        self.unlock = '`p!unlock`\np!unlock <channel>\n\nUnlocks the specified channel'
-        self.kick = '`p!kick`\np!kick <Mention> {Reason}\n\nKicks the member from the server'
-        self.snipeinfo = "`p!snipe`\np!snipe\n\nResends the last deleted message on the server"
+        self.echo = '`p!e` or `p!echo <channel> <Text>`\n\nEchoes a message through the bot to the specified channel\n\n'
+        self.mute = '`p!mute <Mention> <Time> <Reason>`\n\nMutes the user for the specified time\n\n'
+        self.unmute = '`p!unmute <Mention>`\n\n\nUnmutes the user\n\n'
+        self.lock = '`p!lock <channel> <Reason>`\n\nLocks the specified channel\n\n'
+        self.unlock = '`p!unlock <channel>`\n\n\nUnlocks the specified channel\n\n'
+        self.kick = '`p!kick <Mention> <Reason>`\n\nKicks the member from the server\n\n'
+        self.snipeinfo = "`p!snipe`\n\n\nResends the last deleted message on the server\n\n"
 	# self.checkPESUAnnouncement.start()
         # self.checkNewDay.start()
         self.snipe = None
@@ -101,19 +115,19 @@ class server(commands.Cog):
             pass
         else:
             temp = message.content.replace("`", "|")
-            if ('<@!931588180174589983>' in str(temp)): # Bot devs
+            if (f'<@!{BOT_DEVS}>' in str(temp)): # Bot devs
                 ping_log = f"{message.author.mention} pinged botdev in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
                 ping_embed.add_field(name="Message content", value=f"https://discord.com/channels/{GUILD_ID}/{message.channel.id}/{message.id}", inline=False)
                 await self.client.get_channel(MOD_LOGS).send(embed=ping_embed)
-            if ('<@&887368912860241950>' in str(temp)) : #Time keepers
+            if (f'<@&{MODS}>' in str(temp)) : #Time keepers
                 ping_log = f"{message.author.mention} pinged mods in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
                 ping_embed.add_field(name="Message content", value=f"https://discord.com/channels/{GUILD_ID}/{message.channel.id}/{message.id}", inline=False)
                 await self.client.get_channel(MOD_LOGS).send(embed=ping_embed)
-            if ('<@&887323105905745980>' in str(temp)):
+            if (f'<@&{ADMIN}>' in str(temp)):
                 ping_log = f"{message.author.mention} pinged admin in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
@@ -199,10 +213,13 @@ class server(commands.Cog):
         await ctx.channel.send(embed=help_embed)
 
 
-    @commands.command(aliases=['ping', 'Ping'])
+    @cog_ext.cog_slash( name="ping",
+                        guild_ids=[GUILD_ID],
+                        description="Check for latency"
+                      )
     async def _ping(self, ctx):
         ps = f"Pong!!!\nPing = `{str(round(self.client.latency * 1000))} ms`"
-        await ctx.channel.send(ps)
+        await ctx.reply(ps)
 
 
     def getDeverified(self, a=""):
