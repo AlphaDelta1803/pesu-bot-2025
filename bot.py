@@ -15,7 +15,7 @@ slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 # .env summons
 BOT_LOGS = os.getenv('BOT_LOGS')   # Bot Logs channel ID
 BOTDEV_ROLE = os.getenv('BOTDEV_ROLE')   # Bot Dev' Role ID
-BOT_TOKEN = os.getenv('DISCORD_TOKEN') #returns value of the environment variable with key == DISCORD_TOKEN
+BOT_TOKEN = os.getenv('DISCORD_TOKEN')   # Returns value of the environment variable with key == DISCORD_TOKEN
 
 
 @client.command(aliases = ['loadit'])   # Decorator that loads cog 
