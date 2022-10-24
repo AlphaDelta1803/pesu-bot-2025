@@ -37,7 +37,7 @@ class server(commands.Cog):
         self.rest = "`p!restart`\n\nRestarts the bot :flushed:\n\n"
         self.confessen = "`p!enableconfess`\n\n\nEnables the confess feature\n\n"
         self.confessdis = "`p!disableconfess`\n\n\nDisables the confess feature\n\n"
-	#self.confbanusr =
+    #self.confbanusr =
         self.veri = '`p!v` or `p!verify`\np!v help\np!v {SRN}\n\n'
         self.count = '`p!c` or `p!count <role [Not mention]>`\n\nReturns the number of people with the specified role\n\n'
         self.ping = '`p!ping` or `p!Ping`\n\n\nReturns the bot\'s latency\n\n'
@@ -54,7 +54,7 @@ class server(commands.Cog):
         self.unlock = '`p!unlock <channel>`\n\n\nUnlocks the specified channel\n\n'
         self.kick = '`p!kick <Mention> <Reason>`\n\nKicks the member from the server\n\n'
         self.snipeinfo = "`p!snipe`\n\n\nResends the last deleted message on the server\n\n"
-	# self.checkPESUAnnouncement.start()
+    # self.checkPESUAnnouncement.start()
         # self.checkNewDay.start()
         self.snipe = None
 
