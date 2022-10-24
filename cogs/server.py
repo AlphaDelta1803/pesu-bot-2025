@@ -11,23 +11,18 @@ from cogs.helpers import helpers
 from discord_slash.utils.manage_commands import create_option, create_choice
 from discord_slash import cog_ext, utils
 
-BOT_TEST = 1032709445324652605
-BOT_LOGS = 1032709445324652606
-GUILD_ID = 1032709443860832426
-botID = 931592628640813177
-MOD_LOGS = 1032709445324652604
+BOT_TEST = os.getenv('BOT_TEST')
+BOT_LOGS = os.getenv('BOT_LOGS')
+GUILD_ID = os.getenv('GUILD_ID')
+BOT_UID = os.getenv('BOT_UID')
+MOD_LOGS = os.getenv('MOD_LOGS')
 
-ADMIN = 1032709443940524228
-MODS = 1032709443940524227
-BOT_DEVS = 1032709443940524226
-JUST_JOINED = 1032714828197937152
-VERIFIED = 1032714872695304203
-SENIOR = 1032714925832949820
-
-
-
-
-
+ADMIN_ID = os.getenv('ADMIN_ROLE')
+MOD_ID = os.getenv('MOD_ROLE')
+BOTDEV_ID = os.getenv('BOTDEV_ROLE')
+UNVERIFED_ID = os.getenv('UNVERIFIED_ROLE')
+VERIFIED_ID = os.getenv('VERFIED_ROLE')
+SENIOR_ID = os.getenv('SENIOR_ROLE')
 
 class server(commands.Cog):
 
@@ -37,7 +32,7 @@ class server(commands.Cog):
         self.loadit = "`p!loadit <extention>`\n\n\nLoads the extention\n\n"
         self.unloadit = "`p!unloadit <extention>`\n\nUnloads the extention\n\n"
         self.polsho = "`p!pollshow` or `p!ps <pollMsgLink>`\n\nShows the results of the poll\n\n"
-        self.pull = "`p!pull`\n\nPull the latest code of the bot. Maybe.\n\n"
+        self.pull = "`p!pull`\n\nPull the latest commits from alfadelta10010/pesu-bot-2025.\n\n"
         self.scrape = "`p!scrape`\n\nIdk how this works tbh :upside_down:\n\n"
         self.rest = "`p!restart`\n\nRestarts the bot :flushed:\n\n"
         self.confessen = "`p!enableconfess`\n\n\nEnables the confess feature\n\n"
@@ -68,12 +63,12 @@ class server(commands.Cog):
     async def on_ready(self):
         await self.client.wait_until_ready()
         self.guildObj = self.client.get_guild(GUILD_ID)
-        self.admin = get(self.guildObj.roles, id=1032709443940524228)
-        self.mods = get(self.guildObj.roles, id=1032709443940524227)
-        self.bot_devs = get(self.guildObj.roles, id=1032709443940524226)
-        self.just_joined = get(self.guildObj.roles, id=1032714828197937152)
-        self.verified = get(self.guildObj.roles, id=1032714872695304203)
-        self.senior = get(self.guildObj.roles, id=1032714925832949820)
+        self.admin = get(self.guildObj.roles, id=ADMIN_ID)
+        self.mods = get(self.guildObj.roles, id=MOD_ID)
+        self.bot_devs = get(self.guildObj.roles, id=BOTDEV_ID)
+        self.just_joined = get(self.guildObj.roles, id=UNVERIFIED_ID)
+        self.verified = get(self.guildObj.roles, id=VERIFIED_ID)
+        self.senior = get(self.guildObj.roles, id=SENIOR_ID)
         await self.client.get_channel(BOT_LOGS).send("Bot is online")
         await self.client.get_channel(BOT_LOGS).send(f"Logged in as {self.client.user}")
         await self.client.change_presence(
@@ -115,19 +110,19 @@ class server(commands.Cog):
             pass
         else:
             temp = message.content.replace("`", "|")
-            if (f'<@!{BOT_DEVS}>' in str(temp)): # Bot devs
+            if (f'<@!{BOTDEV_ID}>' in str(temp)): # Bot devs
                 ping_log = f"{message.author.mention} pinged botdev in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
                 ping_embed.add_field(name="Message content", value=f"https://discord.com/channels/{GUILD_ID}/{message.channel.id}/{message.id}", inline=False)
                 await self.client.get_channel(MOD_LOGS).send(embed=ping_embed)
-            if (f'<@&{MODS}>' in str(temp)) : #Time keepers
+            if (f'<@&{MOD_ID}>' in str(temp)) : #Time keepers
                 ping_log = f"{message.author.mention} pinged mods in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
                 ping_embed.add_field(name="Message content", value=f"https://discord.com/channels/{GUILD_ID}/{message.channel.id}/{message.id}", inline=False)
                 await self.client.get_channel(MOD_LOGS).send(embed=ping_embed)
-            if (f'<@&{ADMIN}>' in str(temp)):
+            if (f'<@&{ADMIN_ID}>' in str(temp)):
                 ping_log = f"{message.author.mention} pinged admin in {message.channel.mention}"
                 ping_embed = discord.Embed(title="Ping", color=0x0000ff)
                 ping_embed.add_field(name="Ping report", value=ping_log, inline=False)
@@ -137,7 +132,7 @@ class server(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        if((reaction.message.author.id == botID) and (not user.bot)):
+        if((reaction.message.author.id == BOT_UID) and (not user.bot)):
             try:
                 s = reaction.message.embeds[0].footer.text.lower()
                 if('poll by' in s):
@@ -161,10 +156,14 @@ class server(commands.Cog):
             await asyncio.sleep(60)
             self.snipe = None
 
-    @commands.command(aliases=['snipe'])
+    @cog_ext.cog_slash( name="snipe",
+                        description="Resends the last deleted message on the server",
+                        guild_ids=[GUILD_ID],
+                      )
+    # @commands.command(aliases=['snipe'])
     async def _snipe(self, ctx):
         if(self.snipe == None):
-            await ctx.channel.send("There is nothing to snipe")
+            await ctx.channel.send("There is nothing to snipe :P")
         else:
             await ctx.channel.send(f"**{self.snipe.author.mention} on {self.snipe.channel.mention}:** {self.snipe.content}")
             try:
@@ -176,13 +175,16 @@ class server(commands.Cog):
                 pass
             self.snipe = None
 
-
+    @cog_ext.cog_slash( name="help",
+                        description="List of all the commands. You're welcome",
+                        guild_ids=[GUILD_ID],
+                      )
     @commands.command(aliases=['h', 'help'])
     async def _help(self, ctx):
         help_embed = discord.Embed(title="PESU BOT", color=0x48BF91)
         if(self.just_joined in ctx.author.roles):
             help_embed.add_field(name="Verification", value=self.veri)
-            await ctx.channel.send(embed=help_embed)
+            await ctx.channel.reply(embed=help_embed)
             return
         help_embed.add_field(name="Count", value=self.count)
         help_embed.add_field(name="Ping", value=self.ping)
@@ -209,13 +211,13 @@ class server(commands.Cog):
                 help_embed.add_field(name="File", value=self.fil)
                 help_embed.add_field(name="Restart", value=self.rest)
                 help_embed.add_field(name="Pull", value=self.pull)
-                help_embed.add_field(name="Scrape", value=self.scrape)
-        await ctx.channel.send(embed=help_embed)
+                #help_embed.add_field(name="Scrape", value=self.scrape)
+        await ctx.channel.reply(embed=help_embed)
 
 
     @cog_ext.cog_slash( name="ping",
                         guild_ids=[GUILD_ID],
-                        description="Check for latency"
+                        description="Returns the bot\'s latency"
                       )
     async def _ping(self, ctx):
         ps = f"Pong!!!\nPing = `{str(round(self.client.latency * 1000))} ms`"
@@ -237,7 +239,6 @@ class server(commands.Cog):
         file1 = open('cogs/verified.csv', 'w')
         file1.write(dat)
         file1.close()
-
         return ret
 
 
