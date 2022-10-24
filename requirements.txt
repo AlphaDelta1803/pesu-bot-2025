@@ -1,10 +1,9 @@
 python-dotenv==0.15.0
 discord==1.0.1
-discord.py==1.6.0
+discord.py==1.7.3
 asyncio==3.4.3
 selenium==3.141.0
 matplotlib==3.4.2
 discord-py-slash-command==3.0.3
 pytz==2021.3
-
 clean==0.1.4
