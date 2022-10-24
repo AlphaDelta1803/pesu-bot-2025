@@ -4,14 +4,10 @@ import sqlite3 #required to work with sqlite database for registering server mem
 
 
 class helpers(commands.Cog):
-
-
     def __init__(self, client):
         self.client = client
 
-
     def getuser(self, RegNo=""):
-        '''
         if(RegNo == ""):
             return['error']
         f = open('cogs/verified.csv', 'r')
@@ -29,15 +25,19 @@ class helpers(commands.Cog):
             file = open('cogs/batch_list_2020.csv', 'r')
         elif ('PES1UG21' in RegNo or 'PES2UG21' in RegNo):
             file = open('cogs/batch_list_2021.csv', 'r')
+        elif ('PES12022' in RegNo or 'PES22022' in RegNo):
+            file = open('cogs/batch_list_2022.csv', 'r')
+        else
+            file = None
 
         if file == None:
-            return ['no match']
+            return ['No match']
         for lin in file:
             if(RegNo in lin):
                 f.close()
                 return lin.split(',')
         file.close()
-        return ['error']
+        return ['Error']
 '''     
         con = sqlite3.connect("verified.db") #assuming name of database
         #creating connection object to a db file
@@ -74,10 +74,10 @@ class helpers(commands.Cog):
         
         con2.close()
         return ['error']
+'''
 
 
-
-    def getDeverified(self, regNo=""):
+    def getDeverified(self, regNo = ""):
         dat = ""
         ret = False
         file1 = open('cogs/verified.csv', 'r')
@@ -96,7 +96,7 @@ class helpers(commands.Cog):
         return ret
 
 
-    def getVerified(self, a=""):
+    def getVerified(self, a = ""):
         if(a == ""):
             return ['unverified']
         file = open('cogs/verified.csv', 'r')
