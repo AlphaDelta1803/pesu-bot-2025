@@ -20,19 +20,23 @@ Uses [discord.py](https://github.com/Rapptz/discord.py), [discord-py-slash-comma
 
 Add an alias to the bash shell to allow the bot to start:
 
-` alias botstart = source bin/activate; nohup python3 start.py `
+```bash
+alias botstart = source bin/activate; nohup python3 start.py
+```
 
 Enable the Virtual Environment with the following command:
 
-`source botEnv/bin/activate`
+```bash
+source botEnv/bin/activate
+```
 
-Create a `.env` file with the following contents:
-
-`DISCORD_TOKEN=token_here`
+Create a `.env` file by copying `sample.env` and filling in the role values.
 
 Then, run the bot by using the following command:
 
-`python3 bot.py`
+```bash
+python3 bot.py
+```
 
 ## Owner and Maintainer
 
