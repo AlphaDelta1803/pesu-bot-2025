@@ -29,10 +29,11 @@ BOTDEV_ID = os.getenv('BOTDEV_ROLE')
 BOTS_ID = os.getenv('BOTS_ROLE')
 MUTED_ID = os.getenv('MUTED_ROLE')
 VERIFIED_ID = os.getenv('VERIFIED_ROLE')
-RR_ID = 
-EC_ID = 
-HN_ID =
-SENIOR_ID = 
+RR_ID = os.getenv('RR_ROLE')
+EC_ID = os.getenv('EC_ROLE')
+HN_ID = os.getenv('HN_ROLE')
+SENIOR_ID = os.getenv('SENIOR_ROLE')
+JUNIOR_ID = os.getenv('JUNIOR_ROLE')
 GOD_ID = os.getenv('GOD_ID')
 
 class misc(commands.Cog):
@@ -107,10 +108,12 @@ class misc(commands.Cog):
                 ecRole = get(self.guildObj.roles, id=EC_ID)
                 seniorRole = get(self.guildObj.roles, id=SENIOR_ID)
                 hnRole = get(self.guildObj.roles, id=HN_ID)
+                juniorRole = get(self.guildObj.roles, id=JUNIOR_ID)
                 verified = 0
                 hooman = 0
                 bots = 0
                 seniorsNos = 0
+                juniorNos = 0
                 rrPeeps = 0
                 ecPeeps = 0
                 hnPeeps = 0
@@ -125,6 +128,8 @@ class misc(commands.Cog):
                         hnPeeps += 1
                     if(seniorRole in mem.roles):
                         seniorsNos += 1
+                    if(juniorRole in mem.roles):
+                        juniorsNos += 1
                     perms = ctx.channel.permissions_for(mem)
                     if(perms.view_channel):
                         if(mem.bot):
@@ -722,7 +727,7 @@ class misc(commands.Cog):
                         description="Restarts the bot"
                       )
     async def _restart(self, ctx):
-        if ctx.author.id == GOD_ID:
+        if ((self.admin in ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
             await self.git_pull(ctx)
             await self.client.get_channel(BOT_TEST).send(file=discord.File("cogs/verified.csv"))
             p = subprocess.Popen(['python3', 'start.py'])
@@ -766,7 +771,24 @@ class misc(commands.Cog):
         else:
             await ctx.channel.send("You are not authorised for this")
 
-    @cog_ext.cog_slash(name="nickchange", description="Change someone else's nickname", options=[create_option(name="Member", description="The member whose nickname you desire to change", option_type=6, required=True), create_option(name="New_Nickname", description="The new name you want to give this fellow", option_type=3, required=True)])
+    @cog_ext.cog_slash(
+                        name="nickchange", 
+                        description="Change someone else's nickname", 
+                        options=[
+                                  create_option( 
+                                                 name="Member", 
+                                                 description="The member whose nickname you desire to change", 
+                                                 option_type=6, 
+                                                 required=True
+                                               ), 
+                                  create_option( 
+                                                 name="New_Nickname", 
+                                                 description="The new name you want to give this fellow", 
+                                                 option_type=3, 
+                                                 required=True
+                                               )
+                                ]
+                      )
     async def nickchange(self, ctx, Member: discord.Member, New_Nickname: str):
         perms = ctx.channel.permissions_for(ctx.author)
         if((perms.manage_nicknames) and (ctx.author.top_role.position > Member.top_role.position)):
