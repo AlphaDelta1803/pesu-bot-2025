@@ -75,15 +75,9 @@ class verification(commands.Cog):
 
     def campus(self, inp):
         if "PES University (Ring Road)" in inp:
-            try:
-                return self.rrRole
-            except:
-                pass
+            return self.rrRole
         if "PES University (Electronic City)" in inp:
-            try:
-                return self.ecRole
-            except:
-                pass
+            return self.ecRole
 
     def load_roles(self):
         try:
@@ -239,38 +233,6 @@ class verification(commands.Cog):
                     await sleep(6)
                     await ctx.channel.purge(limit=4)
                     return
-'''
-                if(dat[2] == 'Sem-1'):
-                    role_str = "First Year Keeds"
-                    str_rl = stream(dat[6])
-                    camp_rl = campus(dat[7])
-                    try:
-                        role = get(user.guild.roles, name=role_str)
-                        st_role = get(user.guild.roles, name=str_rl)
-                        cp_role = get(user.guild.roles, name=camp_rl)
-                        await user.add_roles(role)
-                        await user.add_roles(st_role)
-                        await user.add_roles(cp_role)
-                    except Exception as e:
-                        print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
-                        return
-                elif(dat[2] == 'Sem-2'):
-                    role_str = "First Year Keeds"
-                    str_rl = stream(dat[6])
-                    camp_rl = campus(dat[7])
-                    try:
-                        role = get(user.guild.roles, name=role_str)
-                        st_role = get(user.guild.roles, name=str_rl)
-                        cp_role = get(user.guild.roles, name=camp_rl)
-                        await user.add_roles(role)
-                        await user.add_roles(st_role)
-                        await user.add_roles(cp_role)
-                    except Exception as e:
-                        print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM <@!523340943437594624>")
-                        return
-'''
                 if(dat[2] == 'Sem-3'):  # elif(dat[2] == 'Sem-3')
                     str_rl = stream(dat[6])
                     camp_rl = campus(dat[7])
@@ -344,12 +306,24 @@ class verification(commands.Cog):
         await self.client.get_channel(BOT_LOGS).send(f"{user.mention}", embed=success)
 
 
-    @commands.command(aliases=['info', 'i'])
-    async def _info(self, ctx, member):
+    @cog_ext.cog_slash( name="info",
+                        description="Returns the information about a verified user on this server",
+                        guild_ids=[GUILD_ID],
+                        options=[
+                            create_option(
+                                name="user",
+                                description="Mention the user",
+                                option_type=6,
+                                required=True
+                            )
+                        ]
+                      )
+    # @commands.command(aliases=['info', 'i'])
+    async def _info(self, ctx, user):
         info_embed = discord.Embed(title="User Info", color=0x48BF91)
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
             try:
-                user = await commands.MemberConverter().convert(ctx, member)
+                #user = await commands.MemberConverter().convert(ctx, member)
                 data = helpers(self.client).getVerified(str(user.id))
                 if('unverified' in data):
                     await ctx.channel.send(f"{ctx.author.mention} The user has not been verified yet")
@@ -360,22 +334,33 @@ class verification(commands.Cog):
             except:
                 await ctx.channel.send(f"{ctx.author.mention} enter a valid member")
         else:
-            await ctx.channel.send("You are not authorised to do that")
+            await ctx.channel.send("You are not authorised to do that. Where did you find this-")
 
-
-    @commands.command(aliases=['d', 'deverify'])
-    async def _deverify(self, ctx, member=""):
+    @cog_ext.cog_slash( name="deverify",
+                        description="Deverifies and removes the data of the user frccom the verified list",
+                        guild_ids=[GUILD_ID],
+                        options=[
+                            create_option(
+                                name="user",
+                                description="Mention the user",
+                                option_type=6,
+                                required=True
+                            )
+                        ]
+                      )
+    # @commands.command(aliases=['d', 'deverify'])
+    async def _deverify(self, ctx, user=""):
         deverify_embed = discord.Embed(title="Deverify", color=0x48BF91, description=self.deverify)
 
-        if(member == ""):
+        if(user == ""):
             await ctx.channel.send("Mention a member as argument", embed=deverify_embed)
             return
-        user = ""
-        try:
-            user = await commands.MemberConverter().convert(ctx, member)
-        except:
-            await ctx.channel.send("Mention a valid member", embed=deverify_embed)
-            return
+        #user = ""
+        #try:
+        #    user = await commands.MemberConverter().convert(ctx, member)
+        #except:
+        #    await ctx.channel.send("Mention a valid member", embed=deverify_embed)
+        #    return
 
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
             if(helpers(self.client).getDeverified(str(user.id))):
@@ -388,14 +373,12 @@ class verification(commands.Cog):
         else:
             await ctx.channel.send("You are not authorised to do that")
 
-
-    @commands.command(aliases=['f', 'file'])
+    @cog_ext.cog_slash (name="file", description="Sends the file of verified members to <#{}>".format(BOT_TEST), guild_ids=[GUILD_ID])
+    # @commands.command(aliases=['f', 'file'])
     async def _file(self, ctx):
         if((self.admin in ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
             await ctx.channel.send("You have the necessary role")
-            with open('cogs/verified.csv', 'r') as fp:
-                await self.client.get_channel(BOT_TEST).send(file=discord.File(fp, 'verified.csv'))
-            fp.close()
+            await self.client.get_channel(BOT_TEST).send(file=discord.File("cogs/verified.csv"))
         else:
             await ctx.channel.send("You are not authorised to do that")
 
