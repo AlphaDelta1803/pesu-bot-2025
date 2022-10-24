@@ -13,9 +13,14 @@
 The source code for authentication and moderation bot used in "PES'25" discord server
 
 ## Tech stack
+
 Uses [discord.py](https://github.com/Rapptz/discord.py), [discord-py-slash-command](https://pypi.org/project/discord-py-slash-command/), and [Selenium](https://pypi.org/project/selenium/)
 
 ## Testing
+
+Add an alias to the bash shell to allow the bot to start:
+
+` alias botstart = source bin/activate; nohup python3 start.py & `
 
 Enable the Virtual Environment with the following command:
 
@@ -30,4 +35,5 @@ Then, run the bot by using the following command:
 `python3 bot.py`
 
 ## Owner and Maintainer
+
 [alfadelta10010](https://github.com/alfadelta10010)
