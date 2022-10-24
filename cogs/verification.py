@@ -373,9 +373,7 @@ class verification(commands.Cog):
         else:
             await ctx.channel.send("You are not authorised to do that")
 
-    @cog_ext.cog_slash( name="file",
-                        description="Sends the file of verified members to <#{}>".format(BOT_TEST),
-                        guild_ids=[GUILD_ID],
+    @cog_ext.cog_slash (name="file", description="Sends the file of verified members to <#{}>".format(BOT_TEST), guild_ids=[GUILD_ID])
     # @commands.command(aliases=['f', 'file'])
     async def _file(self, ctx):
         if((self.admin in ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
