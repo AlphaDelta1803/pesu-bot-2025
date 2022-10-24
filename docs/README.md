@@ -20,7 +20,7 @@ Uses [discord.py](https://github.com/Rapptz/discord.py), [discord-py-slash-comma
 
 Add an alias to the bash shell to allow the bot to start:
 
-` alias botstart = source bin/activate; nohup python3 start.py & `
+` alias botstart = source bin/activate; nohup python3 start.py `
 
 Enable the Virtual Environment with the following command:
 
