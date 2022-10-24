@@ -6,6 +6,7 @@ from discord.utils import get
 import asyncio
 from discord_slash import cog_ext, utils
 import os
+from dotenv import load_dotenv
 import subprocess
 import sys
 import matplotlib.pyplot as plt
