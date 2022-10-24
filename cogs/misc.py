@@ -140,6 +140,7 @@ class misc(commands.Cog):
                 Total number of people on the server: `{total}`
                 Total number of verified people: `{verified}`
                 Total number of seniors: `{seniorsNos}`
+                Total number of juniors: `{juniorsNos}`
                 Total members from RR Campus: `{rrPeeps}`
                 Total members from EC Campus: `{ecPeeps}`
                 Total members from HN Campus: `{hnPeeps}`
