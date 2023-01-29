@@ -65,15 +65,15 @@ class scraper_cog(commands.Cog):
         else:
             st = "PES1"
 
-        print("Running")
+        #print("Running")
         opts = Options()
         opts.headless = True
         browser = Firefox(options=opts)
-        print("Browser running")
+        #print("Browser running")
         fName = "batch_of_" + yr + ".csv"
         f = open(fName, "a")
         f1 = open("errors.txt", "a")
-        print("Files created")
+        #print("Files created")
         for i in range(1, 4000):
             if (i >= 1 and i <= 9):
                 s = "000" + str(i)
@@ -112,9 +112,9 @@ class scraper_cog(commands.Cog):
                 print(inputPRN, "error")
         f.close()
         f1.close()
-        print("File closed")
+        #print("File closed")
         browser.close()
-        print("Browser closed")
+        #print("Browser closed")
 
 
 def setup(client):

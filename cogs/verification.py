@@ -189,7 +189,7 @@ class verification(commands.Cog):
                         print(e)
                         await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
                         return
-            elif('PES12022' in SRN or "PES22022" in SRN):  # Cause '26 batch kids don't have SRN
+            elif('PES1UG22' in SRN or "PES2UG22" in SRN):  # Cause '26 batch kids don't have SRN
                 await ctx.channel.send(f"{user.mention}, now enter your section to complete verification")
                 msg = await self.client.wait_for("message", check=lambda msg: msg.author == ctx.author)
                 msg = str(msg.content)
@@ -233,7 +233,7 @@ class verification(commands.Cog):
                     await sleep(6)
                     await ctx.channel.purge(limit=4)
                     return
-                if(dat[2] == 'Sem-3'):  # elif(dat[2] == 'Sem-3')
+                if(dat[2] == 'Sem-3'):
                     str_rl = stream(dat[6])
                     camp_rl = campus(dat[7])
                     try:

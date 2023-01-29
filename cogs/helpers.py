@@ -25,7 +25,7 @@ class helpers(commands.Cog):
             file = open('cogs/batch_list_2020.csv', 'r')
         elif ('PES1UG21' in RegNo or 'PES2UG21' in RegNo):
             file = open('cogs/batch_list_2021.csv', 'r')
-        elif ('PES12022' in RegNo or 'PES22022' in RegNo):
+        elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
             file = open('cogs/batch_list_2022.csv', 'r')
         else
             file = None
@@ -61,6 +61,8 @@ class helpers(commands.Cog):
             con2 = sqlite3.connect('batch_list_2020.db')
         elif ('PES1UG21' in RegNo or 'PES2UG21' in RegNo):
             con2 = sqlite3.connect('batch_list_2021.db')
+        elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
+            con2 = sqlite3.connect('batch_list_2022.db')
 
         if con2 == None:
             return ['no match']
