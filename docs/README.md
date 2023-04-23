@@ -35,7 +35,7 @@ Create a `.env` file by copying `sample.env` and filling in the role values.
 Then, run the bot by using the following command:
 
 ```bash
-python3 bot.py
+nohup python3 bot.py
 ```
 
 ## Owner and Maintainer
