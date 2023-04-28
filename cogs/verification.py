@@ -210,7 +210,7 @@ class verification(commands.Cog):
                         await user.add_roles(camp_rl)
                     except Exception as e:
                         print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mentio$
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
                         return
                 elif dat[2] == 'Sem-2':
                     str_rl = stream(dat[6])
@@ -222,7 +222,7 @@ class verification(commands.Cog):
                         await user.add_roles(camp_rl)
                     except Exception as e:
                         print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mentio$
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
                         return
             else:
                 await ctx.channel.send(f"{user.mention}, now enter PRN to complete verification")

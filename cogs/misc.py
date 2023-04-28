@@ -335,7 +335,7 @@ class misc(commands.Cog):
             await ctx.channel.send("Lawda you're not authorised to do that")
 
 
-    @cog_ext.cog_slash( name="unmute",
+    @cog_ext.cog_slash(name="unmute",
                         description="Unmutes the user mentioned",
                         guild_ids=[GUILD_ID],
                         options=[
@@ -345,6 +345,7 @@ class misc(commands.Cog):
                                 option_type=6,
                                 required=True
                             )
+                        ]
                       )
     # @ commands.command(aliases=['unmute'])
     async def _unmute(self, ctx, User: discord.Member):
@@ -692,7 +693,7 @@ class misc(commands.Cog):
     #    else:
     #        await ctx.channel.send("Lawda you can't execute this command")
 
-"""
+    """
     @commands.command()
     async def scrape(self, ctx, rr:int = 0, ec:int = 0):
         if((self.admin in  ctx.author.roles) or (self.bot_devs in ctx.author.roles)):
@@ -722,7 +723,7 @@ class misc(commands.Cog):
             await ctx.send(ctx.author.mention)
         else:
             await ctx.send("You are not authorised for this command")
-"""
+    """
     # @commands.command(aliases=['restart'])
     @cog_ext.cog_slash( name="restart",
                         guild_ids=[GUILD_ID],
