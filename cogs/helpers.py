@@ -27,7 +27,7 @@ class helpers(commands.Cog):
             file = open('cogs/batch_list_2021.csv', 'r')
         elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
             file = open('cogs/batch_list_2022.csv', 'r')
-        else
+        else:
             file = None
 
         if file == None:
@@ -38,45 +38,45 @@ class helpers(commands.Cog):
                 return lin.split(',')
         file.close()
         return ['Error']
-'''     
-        con = sqlite3.connect("verified.db") #assuming name of database
-        #creating connection object to a db file
-        cur = con.cursor() #creating cursor to execute queries
-        query = "SELECT SRN FROM verified WHERE SRN = {RegNo}"
-        if(RegNo!=""):
-            res = cur.execute(query.format(RegNo = RegNo)) #executes queries
-        else:
-            return['error']
-        if res!='NULL':
-            con.close() #closes connection object if no matching entry is found
-            return['Done']
-        con.close()
-        con2 = None
-        #assuming db names
-        if ('PES12018' in RegNo or 'PES22018' in RegNo):
-            con2 = sqlite3.connect('batch_list_2018.db')
-        elif ('PES1UG19' in RegNo or 'PES2UG19' in RegNo):
-            con2 = sqlite3.connect('batch_list_2019.db')
-        elif ('PES1UG20' in RegNo or 'PES2UG20' in RegNo):
-            con2 = sqlite3.connect('batch_list_2020.db')
-        elif ('PES1UG21' in RegNo or 'PES2UG21' in RegNo):
-            con2 = sqlite3.connect('batch_list_2021.db')
-        elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
-            con2 = sqlite3.connect('batch_list_2022.db')
+    '''     
+            con = sqlite3.connect("verified.db") #assuming name of database
+            #creating connection object to a db file
+            cur = con.cursor() #creating cursor to execute queries
+            query = "SELECT SRN FROM verified WHERE SRN = {RegNo}"
+            if(RegNo!=""):
+                res = cur.execute(query.format(RegNo = RegNo)) #executes queries
+            else:
+                return['error']
+            if res!='NULL':
+                con.close() #closes connection object if no matching entry is found
+                return['Done']
+            con.close()
+            con2 = None
+            #assuming db names
+            if ('PES12018' in RegNo or 'PES22018' in RegNo):
+                con2 = sqlite3.connect('batch_list_2018.db')
+            elif ('PES1UG19' in RegNo or 'PES2UG19' in RegNo):
+                con2 = sqlite3.connect('batch_list_2019.db')
+            elif ('PES1UG20' in RegNo or 'PES2UG20' in RegNo):
+                con2 = sqlite3.connect('batch_list_2020.db')
+            elif ('PES1UG21' in RegNo or 'PES2UG21' in RegNo):
+                con2 = sqlite3.connect('batch_list_2021.db')
+            elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
+                con2 = sqlite3.connect('batch_list_2022.db')
 
-        if con2 == None:
-            return ['no match']
-        else:
-            cur = con.cursor()
-            #assuming table name
-            res = cur.execute("SELECT * FROM list WHERE SRN = {RegNo}".format(RegNo = RegNo))
-            if(res!='NULL'):
-                con2.close()
-                return res.split(',') #splits the results around commas
-        
-        con2.close()
-        return ['error']
-'''
+            if con2 == None:
+                return ['no match']
+            else:
+                cur = con.cursor()
+                #assuming table name
+                res = cur.execute("SELECT * FROM list WHERE SRN = {RegNo}".format(RegNo = RegNo))
+                if(res!='NULL'):
+                    con2.close()
+                    return res.split(',') #splits the results around commas
+            
+            con2.close()
+            return ['error']
+    '''
 
 
     def getDeverified(self, regNo = ""):
