@@ -27,7 +27,7 @@ class helpers(commands.Cog):
             file = open('cogs/batch_list_2021.csv', 'r')
         elif ('PES1UG22' in RegNo or 'PES2UG22' in RegNo):
             file = open('cogs/batch_list_2022.csv', 'r')
-        else
+        else:
             file = None
 
         if file == None:
@@ -38,7 +38,7 @@ class helpers(commands.Cog):
                 return lin.split(',')
         file.close()
         return ['Error']
-'''     
+    """   
         con = sqlite3.connect("verified.db") #assuming name of database
         #creating connection object to a db file
         cur = con.cursor() #creating cursor to execute queries
@@ -76,7 +76,7 @@ class helpers(commands.Cog):
         
         con2.close()
         return ['error']
-'''
+    """
 
 
     def getDeverified(self, regNo = ""):
