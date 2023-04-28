@@ -344,7 +344,7 @@ class misc(commands.Cog):
                                 description="User to be unmuted",
                                 option_type=6,
                                 required=True
-                            )
+                            )]
                       )
     # @ commands.command(aliases=['unmute'])
     async def _unmute(self, ctx, User: discord.Member):
