@@ -5,10 +5,11 @@ from discord.ext import commands
 from asyncio import sleep
 from discord.utils import get
 from cogs.helpers import helpers
-
+from discord_slash import cog_ext
+from discord_slash.utils.manage_commands import create_option
 BOT_TEST = os.getenv('BOT_TEST')
 BOT_LOGS = os.getenv('BOT_LOGS')
-GUILD_ID = os.getenv('GUILD_ID')
+GUILD_ID = int(os.getenv('GUILD_ID'))
 
 ADMIN_ID = os.getenv('ADMIN_ROLE')
 MOD_ID = os.getenv('MOD_ROLE')
@@ -336,10 +337,10 @@ class verification(commands.Cog):
         else:
             await ctx.channel.send("You are not authorised to do that. Where did you find this-")
 
-    @cog_ext.cog_slash( name="deverify",
-                        description="Deverifies and removes the data of the user frccom the verified list",
-                        guild_ids=[GUILD_ID],
-                        options=[
+    @cog_ext.cog_slash(name="deverify",
+                       description="Deverifies and removes the data of the user frccom the verified list",
+                       guild_ids=[GUILD_ID],
+                       options=[
                             create_option(
                                 name="user",
                                 description="Mention the user",
