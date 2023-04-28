@@ -113,5 +113,5 @@ class helpers(commands.Cog):
         return ['unverified']
 
 
-    def setup(client):
-        client.add_cog(helpers(client))
+def setup(client):
+    client.add_cog(helpers(client))
