@@ -383,6 +383,5 @@ class verification(commands.Cog):
             await ctx.channel.send("You are not authorised to do that")
 
 
-
 def setup(client):
     client.add_cog(verification(client))
