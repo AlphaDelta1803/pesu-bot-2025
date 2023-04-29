@@ -1,16 +1,15 @@
-# Import required modules
 import csv
 import sqlite3
+
 try:
-    # Connecting to the geeks database
+    # Connecting to the batch_list database
     connection = sqlite3.connect('batch_list.db')
 
-    # Creating a cursor object to execute
-    # SQL queries on a database table
+    # Creating a cursor object to execute SQL queries
     cursor = connection.cursor()
 
     # Table Definition
-    create_table = '''CREATE TABLE batchlist(
+    create_table = '''CREATE TABLE IF NOT EXISTS batchlist(
                     PRN VARCHAR(13) NOT NULL,
                     SRN VARCHAR(13) NOT NULL,
                     Semester VARCHAR(5) NOT NULL,
@@ -22,40 +21,38 @@ try:
                     Name VARCHAR(20) NOT NULL);
                     '''
 
-    # Creating the table into our
-    # database
+    # Creating the table into our database
     cursor.execute(create_table)
 
-    # Opening the person-records.csv file
-    file = open('docs/sample_batch_list.csv')
+    # Opening the sample_batch_list.csv file
+    file = open('docs/sample_batch_list.csv', 'r')
 
-    # Reading the contents of the
-    # person-records.csv file
+    # Reading the contents of the sample_batch_list.csv file
     contents = csv.reader(file)
 
-    # SQL query to insert data into the
-    # person table
-    insert_records = "INSERT INTO batchlist (PRN, SRN, Semester, Section, Cycle, DeptCampus, Stream, Campus, Name) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    # Skip header row
+    next(contents)
 
-    # Importing the contents of the file
-    # into our person table
-    cursor.executemany(insert_records, contents)
+    # Importing the contents of the file into the batchlist table
+    for row in contents:
+        cursor.execute("INSERT INTO batchlist (PRN, SRN, Semester, Section, Cycle, DeptCampus, Stream, Campus, Name) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", row)
 
-    # SQL query to retrieve all data from
-    # the person table To verify that the
-    # data of the csv file has been successfully
-    # inserted into the table
+    # SQL query to retrieve all data from the batchlist table to verify that the data of the csv file has been successfully inserted into the table
     select_all = "SELECT * FROM batchlist"
-    rows = cursor.execute(select_all).fetchall()
+    cursor.execute(select_all)
 
     # Output to the console screen
+    rows = cursor.fetchall()
     for r in rows:
         print(r)
 
     # Committing the changes
     connection.commit()
 
+except Exception as e:
+    print("Error: ", e)
+
+finally:
     # closing the database connection
-    connection.close()
-except:
-    print("Table already exists")
+    if (connection):
+        connection.close()
