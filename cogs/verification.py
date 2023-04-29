@@ -5,15 +5,16 @@ from discord.ext import commands
 from asyncio import sleep
 from discord.utils import get
 from cogs.helpers import helpers
-
+from discord_slash import cog_ext
+from discord_slash.utils.manage_commands import create_option
 BOT_TEST = os.getenv('BOT_TEST')
 BOT_LOGS = os.getenv('BOT_LOGS')
-GUILD_ID = os.getenv('GUILD_ID')
+GUILD_ID = int(os.getenv('GUILD_ID'))
 
 ADMIN_ID = os.getenv('ADMIN_ROLE')
 MOD_ID = os.getenv('MOD_ROLE')
 BOTDEV_ID = os.getenv('BOTDEV_ROLE')
-UNVERIFIED_ID = os.geten('UNVERIFIED_ROLE')
+UNVERIFIED_ID = os.getenv('UNVERIFIED_ROLE')
 VERIFIED_ID = os.getenv('VERIFIED_ROLE')
 SENIORS_ID = os.getenv('SENIOR_ROLE')
 FIRSTYR_ID = os.getenv('JUNIOR_ROLE')

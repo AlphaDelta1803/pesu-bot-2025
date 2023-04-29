@@ -20,7 +20,7 @@ IST = pytz.timezone('Asia/Kolkata')
 
 BOT_UID = os.getenv('BOT_UID') # previously botID and pesuID
 confessChannel = os.getenv('CONFESS_ID')
-GUILD_ID = os.getenv('GUILD_ID')
+GUILD_ID = int(os.getenv('GUILD_ID'))
 MOD_LOGS = os.getenv('MOD_LOGS')
 TOKEN = os.getenv('DISCORD_TOKEN')
 electiveChoiceList = []

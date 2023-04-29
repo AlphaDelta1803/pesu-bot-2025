@@ -13,7 +13,7 @@ from discord_slash import cog_ext, utils
 
 BOT_TEST = os.getenv('BOT_TEST')
 BOT_LOGS = os.getenv('BOT_LOGS')
-GUILD_ID = os.getenv('GUILD_ID')
+GUILD_ID = int(os.getenv('GUILD_ID'))
 BOT_UID = os.getenv('BOT_UID')
 MOD_LOGS = os.getenv('MOD_LOGS')
 
