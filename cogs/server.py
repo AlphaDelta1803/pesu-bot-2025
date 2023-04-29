@@ -12,7 +12,7 @@ from discord_slash.utils.manage_commands import create_option, create_choice
 from discord_slash import cog_ext, utils
 
 BOT_TEST = os.getenv('BOT_TEST')
-BOT_LOGS = os.getenv('BOT_LOGS')
+BOT_LOGS = int(os.getenv('BOT_LOGS'))
 GUILD_ID = int(os.getenv('GUILD_ID'))
 BOT_UID = os.getenv('BOT_UID')
 MOD_LOGS = os.getenv('MOD_LOGS')
@@ -20,7 +20,7 @@ MOD_LOGS = os.getenv('MOD_LOGS')
 ADMIN_ID = os.getenv('ADMIN_ROLE')
 MOD_ID = os.getenv('MOD_ROLE')
 BOTDEV_ID = os.getenv('BOTDEV_ROLE')
-UNVERIFED_ID = os.getenv('UNVERIFIED_ROLE')
+UNVERIFIED_ID = os.getenv('UNVERIFIED_ROLE')
 VERIFIED_ID = os.getenv('VERFIED_ROLE')
 SENIOR_ID = os.getenv('SENIOR_ROLE')
 
@@ -69,8 +69,8 @@ class server(commands.Cog):
         self.just_joined = get(self.guildObj.roles, id=UNVERIFIED_ID)
         self.verified = get(self.guildObj.roles, id=VERIFIED_ID)
         self.senior = get(self.guildObj.roles, id=SENIOR_ID)
-        await self.client.get_channel(BOT_LOGS).send("Bot is online")
-        await self.client.get_channel(BOT_LOGS).send(f"Logged in as {self.client.user}")
+        await self.client.get_channel(int(BOT_LOGS)).send("Bot is online")
+        await self.client.get_channel(int(BOT_LOGS)).send(f"Logged in as {self.client.user}")
         await self.client.change_presence(
             status=discord.Status.online,
             activity=discord.Game(name="with the PRIDE of PESU"),
@@ -82,20 +82,20 @@ class server(commands.Cog):
         # error handling, in case of an error the error message will be put up in the channel
         string = f"Something's wrong, I can feel it\n{str(error)}"
         await ctx.channel.send("``{}``".format(string))
-        await self.client.get_channel(BOT_LOGS).send(f"{string}\n{str(ctx.message.author.mention)} is a noob who made this mistake in {str(ctx.message.channel.mention)}")
+        await self.client.get_channel(int(BOT_LOGS)).send(f"{string}\n{str(ctx.message.author.mention)} is a noob who made this mistake in {str(ctx.message.channel.mention)}")
 
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        await self.client.get_channel(BOT_LOGS).send(f"**{member.name}** Joined\n=> {str(member.mention)} just joined")
+        await self.client.get_channel(int(BOT_LOGS)).send(f"**{member.name}** Joined\n=> {str(member.mention)} just joined")
         await member.add_roles(self.just_joined)
 
     @commands.Cog.listener()
     async def on_member_remove(self, user):
-        await self.client.get_channel(BOT_LOGS).send(f"**{str(user)}** just left.")
-        await self.client.get_channel(BOT_LOGS).send(f"=> {str(user.mention)} just left :(")
+        await self.client.get_channel(int(BOT_LOGS)).send(f"**{str(user)}** just left.")
+        await self.client.get_channel(int(BOT_LOGS)).send(f"=> {str(user.mention)} just left :(")
         if(helpers(self.client).getDeverified(str(user.id))):
-            await self.client.get_channel(BOT_LOGS).send("Deverified the user")
+            await self.client.get_channel(int(BOT_LOGS)).send("Deverified the user")
 
 
     #@commands.Cog.listener()
@@ -179,6 +179,7 @@ class server(commands.Cog):
                         description="List of all the commands. You're welcome",
                         guild_ids=[GUILD_ID],
                       )
+
     @commands.command(aliases=['h', 'help'])
     async def _help(self, ctx):
         help_embed = discord.Embed(title="PESU BOT", color=0x48BF91)
