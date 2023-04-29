@@ -10,12 +10,13 @@ client = commands.Bot(command_prefix='p!', help_command=None, intents=discord.In
 #initialises a discord bot with the prefix for its commands set to p!
 
 #having no help command, and subscribed (listening) to all events
-slash = SlashCommand(client, sync_commands=True)
+slash = SlashCommand(client, sync_on_cog_reload = True, sync_commands=True)
 
 # .env summons
 BOT_LOGS = int(os.getenv('BOT_LOGS')) # Bot Logs channel ID
 BOTDEV_ROLE = int(os.getenv('BOTDEV_ID')) # Bot Dev' Role ID
 BOT_TOKEN = os.getenv('DISCORD_TOKEN') # Returns value of the environment variable with key == DISCORD_TOKEN
+
 
 
 @client.command(aliases = ['loadit']) # Decorator that loads cog 
