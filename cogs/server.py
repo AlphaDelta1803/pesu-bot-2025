@@ -179,10 +179,7 @@ class server(commands.Cog):
                         description="List of all the commands. You're welcome",
                         guild_ids=[GUILD_ID],
                       )
-    @commands.command()
-    async def sync(self,ctx):
-        fmt = await ctx.bot.tree.sync(guild = ctx.guild)
-        return
+
     @commands.command(aliases=['h', 'help'])
     async def _help(self, ctx):
         help_embed = discord.Embed(title="PESU BOT", color=0x48BF91)
