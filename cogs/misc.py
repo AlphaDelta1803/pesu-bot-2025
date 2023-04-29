@@ -91,7 +91,7 @@ class misc(commands.Cog):
                                 option_type=3,
                                 required=False
                             )
-                        ]
+                            ]
                       )
     async def _count(self, ctx, rolename = ""):
         rolename = rolename.split('&')
@@ -188,13 +188,13 @@ class misc(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="Channel",
+                                name="channel",
                                 description="Channel the message is to be sent to",
                                 option_type=7,
                                 required=True
                             ),
                             create_option(
-                                name="Message",
+                                name="message",
                                 description="Message to be sent",
                                 option_type=3,
                                 required=True
@@ -229,7 +229,7 @@ class misc(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="User",
+                                name="user",
                                 description="User to be muted",
                                 option_type=6,
                                 required=True
@@ -241,7 +241,7 @@ class misc(commands.Cog):
                                 required=True
                             ),
                             create_option(
-                                name="Reason",
+                                name="reason",
                                 description="Reason for mute",
                                 option_type=3,
                                 required=False
@@ -340,7 +340,7 @@ class misc(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="User",
+                                name="user",
                                 description="User to be unmuted",
                                 option_type=6,
                                 required=True
@@ -382,13 +382,13 @@ class misc(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="Channel",
+                                name="channel",
                                 description="The channel to be locked",
                                 option_type=7,
                                 required=True
                             ),
                             create_option(
-                                name="Reason",
+                                name="reason",
                                 description="The reason why it is to be locked",
                                 option_type=3,
                                 required=False
@@ -428,7 +428,7 @@ class misc(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="Channel",
+                                name="channel",
                                 description="The channel to be unlocked",
                                 option_type=7,
                                 required=True
@@ -508,7 +508,7 @@ class misc(commands.Cog):
                                 required=True
                             ),
                             create_option(
-                                name="Options",
+                                name="options",
                                 description="[Option 1][Option2][Option3]",
                                 option_type=3,
                                 required=True
@@ -592,7 +592,7 @@ class misc(commands.Cog):
                         description="Kicks the member from the server",
                         options=[
                             create_option(
-                                name="Member",
+                                name="member",
                                 description="Member to be kicked or members seperated by \" \"",
                                 option_type=3,
                                 required=True
@@ -779,13 +779,13 @@ class misc(commands.Cog):
                         description="Change someone else's nickname", 
                         options=[
                                   create_option( 
-                                                 name="Member", 
+                                                 name="member", 
                                                  description="The member whose nickname you desire to change", 
                                                  option_type=6, 
                                                  required=True
                                                ), 
                                   create_option( 
-                                                 name="New_Nickname", 
+                                                 name="new_nickname", 
                                                  description="The new name you want to give this fellow", 
                                                  option_type=3, 
                                                  required=True
@@ -803,7 +803,7 @@ class misc(commands.Cog):
         else:
             await ctx.send(content=f"Soo cute you trying to change {Member.name}'s nickname", hidden=True)
 
-    @cog_ext.cog_slash(name="pride", description="Flourishes you with the pride of PESU", guild_ids=[GUILD_ID], options=[create_option(name="Message_ID", description="Message ID of any message you wanna reply to with the pride", option_type=3, required=False)])
+    @cog_ext.cog_slash(name="pride", description="Flourishes you with the pride of PESU", guild_ids=[GUILD_ID], options=[create_option(name="message_id", description="Message ID of any message you wanna reply to with the pride", option_type=3, required=False)])
     async def pride(self, ctx, *, Message_ID: str = ''):
         # await ctx.defer()
         try:
@@ -858,7 +858,7 @@ class misc(commands.Cog):
 
 # remind me to check if it's actually hidden or nah - alfadelta10010
     # @commands.command(aliases=['confessban', 'cb'])
-    @cog_ext.cog_slash(name="confessban", description="Bans a user from submitting confessions who submitted a confession **based on message ID**", guild_ids=[GUILD_ID], options=[create_option(name="Message_ID", description="Message ID of the confession", option_type=3, required=True)])
+    @cog_ext.cog_slash(name="confessban", description="Bans a user from submitting confessions who submitted a confession **based on message ID**", guild_ids=[GUILD_ID], options=[create_option(name="message_id", description="Message ID of the confession", option_type=3, required=True)])
     async def confess_ban(self, ctx, Message_ID: str):
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             #await ctx.defer(hidden=True)
@@ -893,7 +893,7 @@ class misc(commands.Cog):
         else:
             await ctx.reply("You are not authorised to do this", hidden=True)
 
-    @cog_ext.cog_slash(name="confessbanuser", description="Bans a user from submitting confessions", guild_ids=[GUILD_ID], options=[create_option(name="Member", description="User/Member to ban", option_type=6, required=True)])
+    @cog_ext.cog_slash(name="confessbanuser", description="Bans a user from submitting confessions", guild_ids=[GUILD_ID], options=[create_option(name="member", description="User/Member to ban", option_type=6, required=True)])
     async def confess_ban_user(self, ctx, Member: discord.Member):
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             # await ctx.defer(hidden=True)
@@ -920,7 +920,7 @@ class misc(commands.Cog):
             await ctx.reply("You are not authorised for this, go man")
 
     #@commands.command(aliases=['confessunban', 'cub'])
-    @cog_ext.cog_slash(name="confessunbanuser", description="Unbans a user from submitting confessions", options=[create_option(name="Member", description="User/Member to unban", option_type=6, required=True)])
+    @cog_ext.cog_slash(name="confessunbanuser", description="Unbans a user from submitting confessions", options=[create_option(name="member", description="User/Member to unban", option_type=6, required=True)])
     async def confess_unban_user(self, ctx, Member: discord.Member):
         if((self.admin in ctx.author.roles) or (self.mods in ctx.author.roles)):
             # await ctx.defer(hidden=True)

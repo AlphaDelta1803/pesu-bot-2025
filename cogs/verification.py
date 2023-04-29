@@ -102,7 +102,7 @@ class verification(commands.Cog):
                         guild_ids=[GUILD_ID],
                         options=[
                             create_option(
-                                name="SRN",
+                                name="srn",
                                 description="Enter your SRN. Looks like PES1UG26CS999. (Enter PRN if you don't have)",
                                 option_type=3,
                                 required=True
