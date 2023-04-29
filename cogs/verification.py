@@ -5,15 +5,16 @@ from discord.ext import commands
 from asyncio import sleep
 from discord.utils import get
 from cogs.helpers import helpers
-
+from discord_slash import cog_ext
+from discord_slash.utils.manage_commands import create_option
 BOT_TEST = os.getenv('BOT_TEST')
 BOT_LOGS = os.getenv('BOT_LOGS')
-GUILD_ID = os.getenv('GUILD_ID')
+GUILD_ID = int(os.getenv('GUILD_ID'))
 
 ADMIN_ID = os.getenv('ADMIN_ROLE')
 MOD_ID = os.getenv('MOD_ROLE')
 BOTDEV_ID = os.getenv('BOTDEV_ROLE')
-UNVERIFIED_ID = os.geten('UNVERIFIED_ROLE')
+UNVERIFIED_ID = os.getenv('UNVERIFIED_ROLE')
 VERIFIED_ID = os.getenv('VERIFIED_ROLE')
 SENIORS_ID = os.getenv('SENIOR_ROLE')
 FIRSTYR_ID = os.getenv('JUNIOR_ROLE')
@@ -210,7 +211,7 @@ class verification(commands.Cog):
                         await user.add_roles(camp_rl)
                     except Exception as e:
                         print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mentio$
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
                         return
                 elif dat[2] == 'Sem-2':
                     str_rl = stream(dat[6])
@@ -222,7 +223,7 @@ class verification(commands.Cog):
                         await user.add_roles(camp_rl)
                     except Exception as e:
                         print(e)
-                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mentio$
+                        await ctx.channel.send(f"{user.mention} Looks like your role isn't on the server yet. DM or tag {self.admin.mention}")
                         return
             else:
                 await ctx.channel.send(f"{user.mention}, now enter PRN to complete verification")
@@ -381,7 +382,6 @@ class verification(commands.Cog):
             await self.client.get_channel(BOT_TEST).send(file=discord.File("cogs/verified.csv"))
         else:
             await ctx.channel.send("You are not authorised to do that")
-
 
 
 def setup(client):
